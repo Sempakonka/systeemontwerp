@@ -6,14 +6,13 @@ import org.json.simple.JSONArray;
 import java.util.*;
 
 public class PrinterManager {
-    private ArrayList<Printer> printers = new ArrayList<Printer>(); //TODO use interface
-    private ArrayList<Print> prints = new ArrayList<Print>(); //TODO use interface
-    private ArrayList<Spool> spools = new ArrayList<Spool>(); //TODO use interface
-
-    private ArrayList<Spool> freeSpools = new ArrayList<>(); // TODO: Decide if this should be used at all.
-    private ArrayList<Printer> freePrinters = new ArrayList<>();
-    private ArrayList<PrintTask> pendingPrintTasks = new ArrayList<>();
-    private HashMap<Printer, PrintTask> runningPrintTasks = new HashMap();
+    private List<Printer> printers = new ArrayList<Printer>();
+    private List<Print> prints = new ArrayList<Print>();
+    private List<Spool> spools = new ArrayList<Spool>();
+    private List<Spool> freeSpools = new ArrayList<>();
+    private List<Printer> freePrinters = new ArrayList<>();
+    private List<PrintTask> pendingPrintTasks = new ArrayList<>();
+    private Map<Printer, PrintTask> runningPrintTasks = new HashMap();
 
     public void addPrinter(int id, int printerType, String printerName, String manufacturer, int maxX, int maxY, int maxZ, int maxColors) {
         if (printerType == 1) {
@@ -160,11 +159,11 @@ public class PrinterManager {
         prints.add(p);
     }
 
-    public ArrayList<Print> getPrints() {
+    public List<Print> getPrints() {
         return prints;
     }
 
-    public ArrayList<Printer> getPrinters() {
+    public List<Printer> getPrinters() {
         return printers;
     }
 
@@ -175,7 +174,7 @@ public class PrinterManager {
         return runningPrintTasks.get(printer);
     }
 
-    public ArrayList<PrintTask> getPendingPrintTasks() {return pendingPrintTasks; }
+    public List<PrintTask> getPendingPrintTasks() {return pendingPrintTasks; }
 
     public void addPrintTask(String printName, List<String> colors, FilamentType type) {
         Print print = findPrint(printName);

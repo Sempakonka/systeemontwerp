@@ -110,7 +110,7 @@ public class Main {
 
     // TODO: This should be based on which printer is finished printing.
     private void registerPrintCompletion() {
-        ArrayList<Printer> printers = manager.getPrinters();
+        List<Printer> printers = manager.getPrinters();
         System.out.println("---------- Currently Running Printers ----------");
         for(Printer p: printers) {
             PrintTask printerCurrentTask= manager.getPrinterCurrentTask(p);
@@ -125,7 +125,7 @@ public class Main {
     }
 
     private void registerPrinterFailure() {
-        ArrayList<Printer> printers = manager.getPrinters();
+        List<Printer> printers = manager.getPrinters();
         System.out.println("---------- Currently Running Printers ----------");
         for(Printer p: printers) {
             PrintTask printerCurrentTask= manager.getPrinterCurrentTask(p);
@@ -146,7 +146,7 @@ public class Main {
         System.out.println("---------- New Print Task ----------");
         System.out.println("---------- Available prints ----------");
         int counter = 1;
-        for (var p : prints) {
+        for (Print p : prints) {
             System.out.println("- " + counter + ": " + p.getName());
             counter++;
         }
@@ -182,7 +182,7 @@ public class Main {
         System.out.println("---------- Colors ----------");
         ArrayList<String> availableColors = new ArrayList<>();
         counter = 1;
-        for (var spool : spools) {
+        for (Spool spool : spools) {
             String colorString = spool.getColor();
             if(type == spool.getFilamentType() && !availableColors.contains(colorString)) {
                 System.out.println("- " + counter + ": " + colorString + " (" + spool.getFilamentType() + ")");
@@ -207,7 +207,7 @@ public class Main {
     private void showPrints() {
         var prints = manager.getPrints();
         System.out.println("---------- Available prints ----------");
-        for (var p : prints) {
+        for (Print p : prints) {
             System.out.println(p);
         }
         System.out.println("--------------------------------------");
@@ -216,7 +216,7 @@ public class Main {
     private void showSpools() {
         var spools = manager.getSpools();
         System.out.println("---------- Spools ----------");
-        for (var spool : spools) {
+        for (Spool spool : spools) {
             System.out.println(spool);
         }
         System.out.println("----------------------------");
@@ -225,7 +225,7 @@ public class Main {
     private void showPrinters() {
         var printers = manager.getPrinters();
         System.out.println("--------- Available printers ---------");
-        for (var p : printers) {
+        for (Printer p : printers) {
             String output = p.toString();
             PrintTask currentTask = manager.getPrinterCurrentTask(p);
             if(currentTask != null) {
@@ -238,9 +238,9 @@ public class Main {
     }
 
     private void showPendingPrintTasks() {
-        ArrayList<PrintTask> printTasks = manager.getPendingPrintTasks();
+        List<PrintTask> printTasks = manager.getPendingPrintTasks();
         System.out.println("--------- Pending Print Tasks ---------");
-        for (var p : printTasks) {
+        for (PrintTask p : printTasks) {
             System.out.println(p);
         }
         System.out.println("--------------------------------------");
