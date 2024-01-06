@@ -1,40 +1,21 @@
 package nl.saxion.Models;
 
-import java.util.ArrayList;
+import nl.saxion.Models.interfaces.SingleSpoolPrinter;
+import nl.saxion.Models.interfaces.IStandardFDM;
+import nl.saxion.managers.PrintTaskManager;
+import nl.saxion.managers.SpoolManager;
 
 /* Standard cartesian FDM printer */
-public class StandardFDM extends Printer {
-    private final int maxX;
-    private final int maxY;
-    private final int maxZ;
+public class StandardFDMPrinter extends SingleSpoolPrinter implements IStandardFDM {
     private Spool currentSpool;
 
-    public StandardFDM(int id, String printerName, String manufacturer, int maxX, int maxY, int maxZ) {
-        super(id, printerName, manufacturer);
-        this.maxX = maxX;
-        this.maxY = maxY;
-        this.maxZ = maxZ;
-
+    public StandardFDMPrinter(int id, String printerName, String manufacturer, int maxX, int maxY, int maxZ, Spool spool) {
+        super(id, printerName, manufacturer, maxX, maxY, maxZ, spool);
     }
 
-    public void setCurrentSpools(ArrayList<Spool> spools) {
-        this.currentSpool = spools.get(0);
-    }
+    @Override
+    public void handlePrintTask(PrintTask printTask, PrintTaskManager printTaskManager, SpoolManager spoolManager) {
 
-    public void setCurrentSpool(Spool spool) {
-        this.currentSpool = spool;
-    }
-
-    public Spool getCurrentSpool() {
-        return currentSpool;
-    }
-
-    public Spool[] getCurrentSpools() {
-        Spool[] spools = new Spool[1];
-        if(currentSpool != null) {
-            spools[0] = currentSpool;
-        }
-        return spools;
     }
 
     @Override
@@ -42,7 +23,6 @@ public class StandardFDM extends Printer {
         return print.getHeight() <= maxZ && print.getWidth() <= maxX && print.getLength() <= maxY;
     }
 
-    @Override
     public int CalculatePrintTime(String filename) {
         return 0;
     }
