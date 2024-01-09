@@ -28,12 +28,12 @@ public class PrinterManager {
     }
 
     private PrinterFactory getPrinterFactory(int printerType) {
-        switch (printerType) {
-            case 1: return new StandardFDMPrinterFactory();
-            case 2: return new HousedPrinterFactory();
-            case 3: return new MultiColorPrinterFactory();
-            default: return null;
-        }
+        return switch (printerType) {
+            case 1 -> new StandardFDMPrinterFactory();
+            case 2 -> new HousedPrinterFactory();
+            case 3 -> new MultiColorPrinterFactory();
+            default -> null;
+        };
     }
 
 
