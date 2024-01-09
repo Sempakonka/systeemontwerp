@@ -45,6 +45,11 @@ public class Spool {
         return success;
     }
 
+    // empty whole spool
+    public void emptySpool() {
+        this.length = 0;
+    }
+
     public String getColor() {
         return color;
     }

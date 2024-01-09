@@ -5,6 +5,8 @@ import nl.saxion.Models.interfaces.MultiSpoolPrinter;
 import nl.saxion.managers.PrintTaskManager;
 import nl.saxion.managers.SpoolManager;
 
+import java.util.List;
+
 /* Printer capable of printing multiple colors. */
 public class MultiColorPrinter extends MultiSpoolPrinter implements IMultiColor {
     private int maxColors;
@@ -13,10 +15,28 @@ public class MultiColorPrinter extends MultiSpoolPrinter implements IMultiColor 
         super(id, printerName, manufacturer, maxX, maxY, maxZ, spools);
         this.maxColors = maxColors;
     }
-    @Override
-    public void handlePrintTask(PrintTask printTask, PrintTaskManager printTaskManager, SpoolManager spoolManager) {
 
+    @Override
+    public PrintTask selectTask(List<PrintTask> pendingTasks, List<Spool> freeSpools) {
+        return null;
     }
+
+    @Override
+    public void freeResources() {
+        for (Spool spool : getCurrentSpools()) {
+            if(spool != null) {
+                spool.emptySpool();
+            }
+        }
+    }
+
+    @Override
+    public void reduceSpoolLength(PrintTask task) {
+        for (int i = 0; i < task.getPrint().getFilamentLength().size(); i++) {
+            getCurrentSpools()[i].reduceLength(task.getPrint().getFilamentLength().get(i));
+        }
+    }
+
 
     @Override
     public String toString() {
@@ -38,6 +58,11 @@ public class MultiColorPrinter extends MultiSpoolPrinter implements IMultiColor 
     @Override
     public boolean printFits(Print print) {
         return false;
+    }
+
+    @Override
+    public boolean canAcceptTask(PrintTask task) {
+        return task.getFilamentType() != FilamentType.ABS && task.getColors().size() <= getMaxColors();
     }
 
     @Override

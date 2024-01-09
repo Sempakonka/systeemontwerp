@@ -1,5 +1,7 @@
 package nl.saxion.managers;
 
+import nl.saxion.Models.PrintTask;
+import nl.saxion.Models.Printer;
 import nl.saxion.Models.Spool;
 
 import java.util.ArrayList;
@@ -18,20 +20,25 @@ public class SpoolManager {
         return spools;
     }
 
-    public Spool getSpoolByID(int id) {
-        for(Spool s: spools) {
-            if(s.getId() == id) {
-                return s;
+    public boolean areSpoolsAvailableForTask(PrintTask task) {
+        for (Spool spool : freeSpools) {
+            if (spool.spoolMatch(task.getColors().get(0), task.getFilamentType())) {
+                return true;
             }
         }
-        return null;
+        return false;
     }
 
-    public boolean containsSpool(final List<Spool> list, final String name){
-        return list.stream().anyMatch(o -> o.getColor().equals(name));
+    public void assignSpoolsToTask(PrintTask task) {
+        for (Spool spool : freeSpools) {
+            if (spool.spoolMatch(task.getColors().get(0), task.getFilamentType())) {
+                freeSpools.remove(spool);
+                break;
+            }
+        }
     }
 
-    public List<Spool> getFreeSpools() {
-        return freeSpools;
+    public void reduceResourcesForPrinter(Printer printer, PrintTask task) {
+        printer.reduceSpoolLength(task);
     }
 }

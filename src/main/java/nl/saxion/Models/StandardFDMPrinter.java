@@ -5,22 +5,40 @@ import nl.saxion.Models.interfaces.IStandardFDM;
 import nl.saxion.managers.PrintTaskManager;
 import nl.saxion.managers.SpoolManager;
 
+import java.util.List;
+
 /* Standard cartesian FDM printer */
 public class StandardFDMPrinter extends SingleSpoolPrinter implements IStandardFDM {
-    private Spool currentSpool;
 
     public StandardFDMPrinter(int id, String printerName, String manufacturer, int maxX, int maxY, int maxZ, Spool spool) {
         super(id, printerName, manufacturer, maxX, maxY, maxZ, spool);
     }
 
-    @Override
-    public void handlePrintTask(PrintTask printTask, PrintTaskManager printTaskManager, SpoolManager spoolManager) {
 
+    @Override
+    public PrintTask selectTask(List<PrintTask> pendingTasks, List<Spool> freeSpools) {
+        return null;
+    }
+
+    @Override
+    public void freeResources() {
+        getCurrentSpool().emptySpool();
+    }
+
+
+    @Override
+    public void reduceSpoolLength(PrintTask task) {
+        getCurrentSpool().reduceLength(task.getPrint().getFilamentLength().get(0));
     }
 
     @Override
     public boolean printFits(Print print) {
         return print.getHeight() <= maxZ && print.getWidth() <= maxX && print.getLength() <= maxY;
+    }
+
+    @Override
+    public boolean canAcceptTask(PrintTask task) {
+        return task.getFilamentType() != FilamentType.ABS && task.getColors().size() == 1;
     }
 
     public int CalculatePrintTime(String filename) {
@@ -29,15 +47,6 @@ public class StandardFDMPrinter extends SingleSpoolPrinter implements IStandardF
 
     @Override
     public String toString() {
-        String result = super.toString();
-        String append = "- maxX: " + maxX + System.lineSeparator() +
-                "- maxY: " + maxY + System.lineSeparator() +
-                "- maxZ: " + maxZ + System.lineSeparator();
-        if (currentSpool != null) {
-            append += "- Spool(s): " + currentSpool.getId()+ System.lineSeparator();
-        }
-        append += "--------";
-        result = result.replace("--------", append);
-        return result;
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 }

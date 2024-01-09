@@ -4,6 +4,7 @@ import nl.saxion.managers.PrintTaskManager;
 import nl.saxion.managers.SpoolManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Printer {
     private int id;
@@ -23,7 +24,11 @@ public abstract class Printer {
         this.maxZ = maxZ;
     }
 
-    public abstract void handlePrintTask(PrintTask printTask, PrintTaskManager printTaskManager, SpoolManager spoolManager);
+    public abstract PrintTask selectTask(List<PrintTask> pendingTasks, List<Spool> freeSpools);
+
+    public abstract void freeResources();
+
+    public abstract void reduceSpoolLength(PrintTask task);
 
     public int getId() {
         return id;
@@ -42,4 +47,6 @@ public abstract class Printer {
         return name;
     }
     public abstract boolean printFits(Print print);
+
+    public abstract boolean canAcceptTask(PrintTask task);
 }
