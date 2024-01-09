@@ -67,4 +67,8 @@ public class Spool {
                 "- length: " + length + System.lineSeparator() +
                 "--------";
     }
+
+    public String getRemainingLength() {
+        return String.format("%.2f", length);
+    }
 }

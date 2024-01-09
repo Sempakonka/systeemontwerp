@@ -32,4 +32,10 @@ public class PrintTask {
     public String toString() {
         return "< " + print.getName() +" " + filamentType + " " + colors.toString() + " >";
     }
+
+    public String getId() {
+        return UUID.randomUUID().toString();
+    }
+
+
 }
