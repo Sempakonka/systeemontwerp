@@ -18,10 +18,10 @@ public class PrinterFacade {
     private PrintTaskManager printTaskManager;
 
     public PrinterFacade() {
-        printerManager = new PrinterManager();
-        printManager = new PrintManager();
-        spoolManager = new SpoolManager();
-        printTaskManager = new PrintTaskManager();
+        printerManager = PrinterManager.getInstance();
+        printManager = PrintManager.getInstance();
+        spoolManager = SpoolManager.getInstance();
+        printTaskManager = PrintTaskManager.getInstance();
     }
 
     public void addPrinter(int id, int printerType, String printerName,

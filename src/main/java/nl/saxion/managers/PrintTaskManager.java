@@ -8,6 +8,18 @@ import java.util.List;
 import java.util.Map;
 
 public class PrintTaskManager {
+
+    private static PrintTaskManager instance = null;
+
+    private PrintTaskManager() {
+    }
+
+    public static PrintTaskManager getInstance() {
+        if (instance == null) {
+            instance = new PrintTaskManager();
+        }
+        return instance;
+    }
     private List<PrintTask> pendingPrintTasks = new ArrayList<>();
     private Map<Printer, PrintTask> runningPrintTasks = new HashMap();
 

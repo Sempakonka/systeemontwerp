@@ -12,6 +12,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PrinterManager {
+
+    private static PrinterManager instance;
+
+    private PrinterManager() {
+
+    }
+
+    public static synchronized PrinterManager getInstance() {
+        if (instance == null) {
+            instance = new PrinterManager();
+        }
+        return instance;
+    }
     private List<Printer> printers = new ArrayList<>();
     private List<Printer> freePrinters = new ArrayList<>();
 

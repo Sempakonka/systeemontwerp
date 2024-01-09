@@ -8,6 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SpoolManager {
+
+    private static SpoolManager instance = null;
+
+    private SpoolManager() {
+    }
+
+    public static SpoolManager getInstance() {
+        if (instance == null) {
+            instance = new SpoolManager();
+        }
+        return instance;
+    }
+
     private List<Spool> spools = new ArrayList<>();
     private List<Spool> freeSpools = new ArrayList<>();
 

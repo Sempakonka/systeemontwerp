@@ -6,6 +6,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PrintManager {
+
+    private static PrintManager instance = null;
+
+    private PrintManager() {
+    }
+
+    public static PrintManager getInstance() {
+        if (instance == null) {
+            instance = new PrintManager();
+        }
+        return instance;
+    }
+
     private List<Print> prints = new ArrayList<>();
 
     public void addPrint(String name, int height, int width, int length, ArrayList<Double> filamentLength, int printTime) {
