@@ -1,14 +1,11 @@
 package nl.saxion.Models;
 
 import nl.saxion.Models.interfaces.SingleSpoolPrinter;
-import nl.saxion.Models.interfaces.IStandardFDM;
-import nl.saxion.managers.PrintTaskManager;
-import nl.saxion.managers.SpoolManager;
 
 import java.util.List;
 
 /* Standard cartesian FDM printer */
-public class StandardFDMPrinter extends SingleSpoolPrinter implements IStandardFDM {
+public class StandardFDMPrinter extends SingleSpoolPrinter   {
 
     public StandardFDMPrinter(int id, String printerName, String manufacturer, int maxX, int maxY, int maxZ, Spool spool) {
         super(id, printerName, manufacturer, maxX, maxY, maxZ, spool);

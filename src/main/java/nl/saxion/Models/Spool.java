@@ -1,7 +1,5 @@
 package nl.saxion.Models;
 
-import java.util.Objects;
-
 public class Spool {
     private final int id;
     private final String color;

@@ -1,9 +1,5 @@
 package nl.saxion.Models;
 
-import nl.saxion.managers.PrintTaskManager;
-import nl.saxion.managers.SpoolManager;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Printer {

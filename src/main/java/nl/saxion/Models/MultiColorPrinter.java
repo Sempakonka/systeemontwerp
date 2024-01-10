@@ -1,14 +1,11 @@
 package nl.saxion.Models;
 
-import nl.saxion.Models.interfaces.IMultiColor;
 import nl.saxion.Models.interfaces.MultiSpoolPrinter;
-import nl.saxion.managers.PrintTaskManager;
-import nl.saxion.managers.SpoolManager;
 
 import java.util.List;
 
 /* Printer capable of printing multiple colors. */
-public class MultiColorPrinter extends MultiSpoolPrinter implements IMultiColor {
+public class MultiColorPrinter extends MultiSpoolPrinter  {
     private int maxColors;
 
     public MultiColorPrinter(int id, String printerName, String manufacturer, int maxX, int maxY, int maxZ, int maxColors, Spool[] spools) {
@@ -65,7 +62,6 @@ public class MultiColorPrinter extends MultiSpoolPrinter implements IMultiColor 
         return task.getFilamentType() != FilamentType.ABS && task.getColors().size() <= getMaxColors();
     }
 
-    @Override
     public int getMaxColors() {
         return maxColors;
     }

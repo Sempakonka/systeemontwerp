@@ -1,14 +1,11 @@
 package nl.saxion.Models;
 
-import nl.saxion.Models.interfaces.IHousedPrinter;
 import nl.saxion.Models.interfaces.SingleSpoolPrinter;
-import nl.saxion.managers.PrintTaskManager;
-import nl.saxion.managers.SpoolManager;
 
 import java.util.List;
 
 /* Printer capable of printing ABS */
-public class HousedPrinter extends SingleSpoolPrinter implements IHousedPrinter {
+public class HousedPrinter extends SingleSpoolPrinter   {
 
     public HousedPrinter(int id, String printerName, String manufacturer, int maxX, int maxY, int maxZ, Spool spool) {
         super(id, printerName, manufacturer, maxX, maxY, maxZ, spool);

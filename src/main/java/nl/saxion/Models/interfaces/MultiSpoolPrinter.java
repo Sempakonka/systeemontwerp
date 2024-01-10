@@ -3,9 +3,6 @@ package nl.saxion.Models.interfaces;
 import nl.saxion.Models.Printer;
 import nl.saxion.Models.Spool;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public abstract class MultiSpoolPrinter extends Printer {
     Spool[] spools;
 
