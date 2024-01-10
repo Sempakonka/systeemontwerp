@@ -15,6 +15,17 @@ public class Spool {
         this.length = length;
     }
 
+    public Spool(int id, String color, String filamentTypeAsString, double length) {
+        this.id = id;
+        this.color = color;
+        try {
+            this.filamentType = FilamentType.valueOf(filamentTypeAsString.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid filament type: " + filamentTypeAsString);
+        }
+        this.length = length;
+    }
+
     public int getId() {
         return this.id;
     }

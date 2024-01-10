@@ -2,7 +2,6 @@ package nl.saxion.factory;
 
 import nl.saxion.Models.HousedPrinter;
 import nl.saxion.Models.Printer;
-import nl.saxion.Models.interfaces.PrinterFactory;
 
 public class HousedPrinterFactory implements PrinterFactory {
     @Override

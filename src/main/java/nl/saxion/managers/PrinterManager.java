@@ -1,9 +1,7 @@
 package nl.saxion.managers;
 
 import nl.saxion.Models.*;
-import nl.saxion.Models.interfaces.MultiSpoolPrinter;
-import nl.saxion.Models.interfaces.PrinterFactory;
-import nl.saxion.Models.interfaces.SingleSpoolPrinter;
+import nl.saxion.factory.PrinterFactory;
 import nl.saxion.factory.HousedPrinterFactory;
 import nl.saxion.factory.MultiColorPrinterFactory;
 import nl.saxion.factory.StandardFDMPrinterFactory;

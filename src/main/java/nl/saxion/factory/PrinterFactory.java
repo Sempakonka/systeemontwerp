@@ -1,4 +1,4 @@
-package nl.saxion.Models.interfaces;
+package nl.saxion.factory;
 
 import nl.saxion.Models.PrintTask;
 import nl.saxion.Models.Printer;
