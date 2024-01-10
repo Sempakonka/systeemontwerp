@@ -12,23 +12,8 @@ public class HousedPrinter extends SingleSpoolPrinter   {
     }
 
     @Override
-    public PrintTask selectTask(List<PrintTask> pendingTasks, List<Spool> freeSpools) {
-        return null;
-    }
-
-    @Override
-    public void freeResources() {
-        getCurrentSpool().emptySpool();
-    }
-
-    @Override
     public void reduceSpoolLength(PrintTask task) {
         getCurrentSpool().reduceLength(task.getPrint().getFilamentLength().get(0));
-    }
-
-    @Override
-    public boolean printFits(Print print) {
-        return false;
     }
 
     @Override

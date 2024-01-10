@@ -65,7 +65,7 @@ public class PrinterManager {
         return null;
     }
 
-    public void assignTaskToPrinter(Printer printer, PrintTask chosenTask) {
+    public void assignTaskToPrinter(Printer printer) {
         freePrinters.remove(printer);
     }
 }

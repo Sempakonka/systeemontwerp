@@ -40,7 +40,7 @@ public class PrinterFacade {
 
                 // Update  states
                 spoolManager.assignSpoolsToTask(chosenTask);
-                printerManager.assignTaskToPrinter(printer, chosenTask);
+                printerManager.assignTaskToPrinter(printer);
                 printTaskManager.assignTaskToPrinter(printer, chosenTask);
                 printTaskManager.removePendingTask(chosenTask);
 

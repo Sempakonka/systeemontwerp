@@ -7,8 +7,8 @@ import nl.saxion.Models.Spool;
 import java.util.List;
 
 public interface FileDataReader {
-    List<Print> readPrints(String filename);
-    List<Printer> readPrinters(String filename);
-    List<Spool> readSpools(String filename);
+    void readPrints(String filename);
+    void readPrinters(String filename);
+    void readSpools(String filename);
 }
 

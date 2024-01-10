@@ -21,6 +21,8 @@ public class PrintTaskManager {
         return instance;
     }
     private List<PrintTask> pendingPrintTasks = new ArrayList<>();
+
+    // todo: should be based on printer id
     private Map<Printer, PrintTask> runningPrintTasks = new HashMap();
 
     public void addPrintTask(Print print, List<String> colors, FilamentType type) {
@@ -34,8 +36,6 @@ public class PrintTaskManager {
             printError("Need at least one color, but none given");
             return;
         }
-
-        // Check for color availability moved to SpoolManager class
 
         PrintTask task = new PrintTask(print, colors, type);
         pendingPrintTasks.add(task);

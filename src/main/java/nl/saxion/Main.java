@@ -3,12 +3,16 @@ package nl.saxion;
 
 import nl.saxion.adaptor.FileDataReader;
 import nl.saxion.adaptor.JSONFileDataReader;
+import nl.saxion.factory.HousedPrinterFactory;
+import nl.saxion.factory.MultiColorPrinterFactory;
+import nl.saxion.factory.PrinterFactory;
+import nl.saxion.factory.StandardFDMPrinterFactory;
+
 import java.util.*;
 
 public class Main {
-    Scanner scanner = new Scanner(System.in);
     private final PrinterFacade manager = new PrinterFacade();
-
+    Scanner scanner = new Scanner(System.in);
     private String printStrategy = "Less Spool Changes";
 
     public static void main(String[] args) {
@@ -16,7 +20,7 @@ public class Main {
     }
 
     public void run(String[] args) {
-        if(args.length > 0) {
+        if (args.length > 0) {
             FileDataReader dataReader = new JSONFileDataReader();
             dataReader.readPrints(args[0]);
             dataReader.readPrinters(args[1]);
@@ -89,9 +93,9 @@ public class Main {
         System.out.println("- 2: Efficient Spool Usage");
         System.out.println("- Choose strategy: ");
         int strategyChoice = numberInput(1, 2);
-        if(strategyChoice == 1) {
+        if (strategyChoice == 1) {
             printStrategy = "- Less Spool Changes";
-        } else if( strategyChoice == 2) {
+        } else if (strategyChoice == 2) {
             printStrategy = "- Efficient Spool Usage";
         }
         System.out.println("-----------------------------------");
@@ -237,7 +241,7 @@ public class Main {
 
     public String stringInput() {
         String input = null;
-        while(input == null || input.length() == 0){
+        while (input == null || input.length() == 0) {
             input = scanner.nextLine();
         }
         return input;

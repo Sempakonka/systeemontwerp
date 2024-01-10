@@ -1,7 +1,5 @@
 package nl.saxion.Models;
 
-import java.util.List;
-
 public abstract class Printer {
     private int id;
     private String name;
@@ -19,10 +17,6 @@ public abstract class Printer {
         this.maxY = maxY;
         this.maxZ = maxZ;
     }
-
-    public abstract PrintTask selectTask(List<PrintTask> pendingTasks, List<Spool> freeSpools);
-
-    public abstract void freeResources();
 
     public abstract void reduceSpoolLength(PrintTask task);
 
@@ -42,7 +36,6 @@ public abstract class Printer {
     public String getName(){
         return name;
     }
-    public abstract boolean printFits(Print print);
 
     public abstract boolean canAcceptTask(PrintTask task);
 }
