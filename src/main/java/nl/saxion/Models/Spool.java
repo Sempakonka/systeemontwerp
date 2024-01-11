@@ -6,11 +6,21 @@ public class Spool {
     private final FilamentType filamentType;
     private double length;
 
+    private String taskId;
+
     public Spool(int id, String color, FilamentType filamentType, double length) {
         this.id = id;
         this.color = color;
         this.filamentType = filamentType;
         this.length = length;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
+    }
+
+    public String getTaskId() {
+        return taskId;
     }
 
     public Spool(int id, String color, String filamentTypeAsString, double length) {
@@ -32,11 +42,8 @@ public class Spool {
         return length;
     }
 
-    public boolean spoolMatch(String color, FilamentType type) {
-        if(color.equals(this.color) && type == this.getFilamentType()) {
-            return true;
-        }
-        return false;
+    public boolean spoolMatch(String color, String type) {
+        return color.equals(this.color) && String.valueOf(type).equals(String.valueOf(this.getFilamentType()));
     }
     /**
      * This method will try to reduce the length of the spool.

@@ -1,15 +1,19 @@
 package nl.saxion.Models;
 
+import java.util.Map;
+
 public abstract class Printer {
-    private int id;
+    private String id;
     private String name;
     private String manufacturer;
+
+    private String currentTaskId;
 
     protected final int maxX;
     protected int maxY;
     protected final int maxZ;
 
-    public Printer(int id, String printerName, String manufacturer, int maxX, int maxY, int maxZ) {
+    public Printer(String id, String printerName, String manufacturer, int maxX, int maxY, int maxZ) {
         this.id = id;
         this.name = printerName;
         this.manufacturer = manufacturer;
@@ -18,9 +22,17 @@ public abstract class Printer {
         this.maxZ = maxZ;
     }
 
-    public abstract void reduceSpoolLength(PrintTask task);
+    public void setCurrentTaskId(String currentTaskId) {
+        this.currentTaskId = currentTaskId;
+    }
 
-    public int getId() {
+    public String getCurrentTaskId() {
+        return currentTaskId;
+    }
+
+    public abstract void reduceSpoolLength(Map<Integer, Double> reductionMap);
+
+    public String getId() {
         return id;
     }
 

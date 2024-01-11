@@ -1,6 +1,11 @@
 package nl.saxion.managers;
 
-import nl.saxion.Models.*;
+
+import nl.saxion.Models.FilamentType;
+import nl.saxion.Models.Print;
+import nl.saxion.Models.PrintTask;
+import java.util.function.Predicate;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,37 +25,44 @@ public class PrintTaskManager {
         }
         return instance;
     }
-    private List<PrintTask> pendingPrintTasks = new ArrayList<>();
+    private List<PrintTask> printTasks = new ArrayList<>();
 
-    // todo: should be based on printer id
-    private Map<Printer, PrintTask> runningPrintTasks = new HashMap();
 
-    public void addPrintTask(Print print, List<String> colors, FilamentType type) {
-
-        if (print == null) {
-            printError("Could not find print with name " + print.getName());
-            return;
-        }
-
+    public void addPrintTask(String printId, List<String> colors, String type) {
         if (colors.size() == 0) {
             printError("Need at least one color, but none given");
             return;
         }
 
-        PrintTask task = new PrintTask(print, colors, type);
-        pendingPrintTasks.add(task);
+        PrintTask task = new PrintTask(printId, colors, type);
+        printTasks.add(task);
         System.out.println("Added task to queue");
     }
 
-    public List<PrintTask> getPendingPrintTasks() {
-        return pendingPrintTasks;
+    public List<String> getPendingPrintTasks() {
+        List<String> pendingTasks = new ArrayList<>();
+        for (PrintTask task : printTasks) {
+            if (task.getPrinterId() == null) {
+                pendingTasks.add(task.getId());
+            }
+        }
+        return pendingTasks;
     }
 
-    public PrintTask getPrinterCurrentTask(Printer printer) {
-        if (!runningPrintTasks.containsKey(printer)) {
-            return null;
+    /**
+     * Retrieves the current print task associated with the given printer ID.
+     *
+     * @param printerId The ID of the printer to search for.
+     * @return The current PrintTask object associated with the given printer ID, or null if no task is found.
+     */
+    public PrintTask getPrinterCurrentTask(String printerId) {
+        // search for task with printerId
+        for (PrintTask task : printTasks) {
+            if (task.getPrinterId() != null && task.getPrinterId().equals(printerId)) {
+                return task;
+            }
         }
-        return runningPrintTasks.get(printer);
+        return null;
     }
 
     private void printError(String s) {
@@ -59,30 +71,70 @@ public class PrintTaskManager {
         System.out.println("--------------------------------------");
     }
 
-    public PrintTask findTaskForPrinter(Printer printer) {
-        for (PrintTask task : pendingPrintTasks) {
-            // Check if the task is compatible with the printer
-            if (printer.canAcceptTask(task)) {
-                // Optional: additional checks or logic before confirming the task
-                return task;
+
+
+    public String findTaskForPrinter(Predicate<PrintTask> taskEvaluator) {
+        for (PrintTask task : printTasks) {
+            if (taskEvaluator.test(task)) {
+                return task.getId();
             }
         }
-        return null;  // No suitable task found
+        return null;
     }
 
-    public void removePendingTask(PrintTask task) {
-        pendingPrintTasks.remove(task);
+    public void removePendingTask(String taskId) {
+        printTasks.removeIf(task -> task.getId().equals(taskId));
     }
 
-    public void assignTaskToPrinter(Printer printer, PrintTask chosenTask) {
-        runningPrintTasks.put(printer, chosenTask);
+    /**
+     * Assigns a print task to a printer.
+     *
+     * @param printerId   the ID of the printer to which the task is assigned
+     *
+     */
+    public void assignTaskToPrinter(String printerId, String chosenTaskId) {
+        for (PrintTask task : printTasks) {
+            if (task.getId().equals(chosenTaskId)) {
+                task.setPrinterId(printerId);
+                break;
+            }
+        }
     }
 
-    public void removeRunningTask(Printer printer) {
-        runningPrintTasks.remove(printer);
+    /**
+     * Removes a running print task for the specified printer.
+     *
+     * @param printerId the ID of the printer for which to remove the running print task
+     */
+    public void removeRunningTask(String printerId) {
+        for (PrintTask task : printTasks) {
+            if (task.getPrinterId().equals(printerId)) {
+                task.setPrinterId(null);
+                break;
+            }
+        }
     }
 
-    public void addPendingTask(PrintTask task) {
-        pendingPrintTasks.add(task);
+    public void addPendingTask(String taskId) {
+        for (PrintTask task : printTasks) {
+            if (task.getId().equals(taskId)) {
+                task.setPrinterId(null);
+                break;
+            }
+        }
+    }
+
+    public String getTaskColors(String chosenTaskId) {
+        // search
+        return "";
+    }
+
+    public String getTaskFilamentType(String chosenTaskId) {
+        for (PrintTask task : printTasks) {
+            if (task.getId().equals(chosenTaskId)) {
+                return task.getFilamentType().toString();
+            }
+        }
+        return null;
     }
 }

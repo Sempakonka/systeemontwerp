@@ -4,6 +4,7 @@ import nl.saxion.Models.Print;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class PrintManager {
 
@@ -26,14 +27,18 @@ public class PrintManager {
         prints.add(p);
     }
 
-    public List<Print> getPrints() {
-        return prints;
+    public List<String> getPrints() {
+        List<String> printNames = new ArrayList<>();
+        for (Print p : prints) {
+            printNames.add(p.getName());
+        }
+        return printNames;
     }
 
-    public Print findPrint(String printName) {
+    public String findPrint(String printName) {
         for (Print p : prints) {
             if (p.getName().equals(printName)) {
-                return p;
+                return p.getId();
             }
         }
         return null;
@@ -44,5 +49,13 @@ public class PrintManager {
             return null;
         }
         return prints.get(index);
+    }
+
+    public Map<Integer, Double> getReductionMap(String printName) {
+        for (Print p : prints) {
+            if (p.getName().equals(printName)) {
+                return p.getReductionMap();
+            }
+        }
     }
 }

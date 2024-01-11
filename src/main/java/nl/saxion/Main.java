@@ -116,7 +116,7 @@ public class Main {
         }
 
         System.out.print("- Enter the ID of the printer that has completed its task: ");
-        int printerId = numberInput(1, Integer.MAX_VALUE);
+        String printerId = stringInput();
         System.out.println("-----------------------------------");
 
         manager.registerCompletion(printerId);
@@ -137,7 +137,7 @@ public class Main {
         }
 
         System.out.print("- Enter the ID of the printer that failed: ");
-        int printerId = numberInput(1, Integer.MAX_VALUE);
+        String printerId = stringInput();
         System.out.println("-----------------------------------");
 
         manager.registerPrinterFailure(printerId);

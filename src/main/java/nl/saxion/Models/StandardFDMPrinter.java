@@ -2,18 +2,22 @@ package nl.saxion.Models;
 
 import nl.saxion.Models.interfaces.SingleSpoolPrinter;
 
-import java.util.List;
+import java.util.Map;
 
 /* Standard cartesian FDM printer */
 public class StandardFDMPrinter extends SingleSpoolPrinter   {
 
-    public StandardFDMPrinter(int id, String printerName, String manufacturer, int maxX, int maxY, int maxZ, Spool spool) {
+    public StandardFDMPrinter(String id, String printerName, String manufacturer, int maxX, int maxY, int maxZ, Spool spool) {
         super(id, printerName, manufacturer, maxX, maxY, maxZ, spool);
     }
 
     @Override
-    public void reduceSpoolLength(PrintTask task) {
-        getCurrentSpool().reduceLength(task.getPrint().getFilamentLength().get(0));
+    public void reduceSpoolLength(Map<Integer, Double> reductionMap) {
+        for (Map.Entry<Integer, Double> entry : reductionMap.entrySet()) {
+            int index = entry.getKey();
+            double length = entry.getValue();
+            getCurrentSpool().reduceLength(length);
+        }
     }
 
     @Override

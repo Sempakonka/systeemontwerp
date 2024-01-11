@@ -1,15 +1,12 @@
 package nl.saxion;
 
-import nl.saxion.Models.*;
 import nl.saxion.managers.PrintManager;
 import nl.saxion.managers.PrintTaskManager;
 import nl.saxion.managers.PrinterManager;
 import nl.saxion.managers.SpoolManager;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PrinterFacade {
     private PrinterManager printerManager;
@@ -24,39 +21,38 @@ public class PrinterFacade {
         printTaskManager = PrintTaskManager.getInstance();
     }
 
-    public void addPrinter(int id, int printerType, String printerName,
+    public void addPrinter(String id, int printerType, String printerName,
                            String manufacturer, int maxX, int maxY, int maxZ, int maxColors) {
         printerManager.addPrinter(id, printerType, printerName, manufacturer, maxX, maxY, maxZ, maxColors);
     }
 
-    public void selectPrintTask(Printer printer) {
+    public void selectPrintTask(String printerId) {
         // Delegate to PrintTaskManager to select an appropriate task for the printer
-        PrintTask chosenTask = printTaskManager.findTaskForPrinter(printer);
+        String chosenTaskId = printTaskManager.findTaskForPrinter(printerManager.getPrinterById(printerId)::canAcceptTask);
 
-        if (chosenTask != null) {
+        String taskColors = printTaskManager.getTaskColors(chosenTaskId);
+
+        if (chosenTaskId != null) {
             // Check and manage spools if necessary
-            if (spoolManager.areSpoolsAvailableForTask(chosenTask)) {
-                // Assign the task to the printer
+            if (spoolManager.areSpoolsAvailableForTask(taskColors, printTaskManager.getTaskFilamentType(chosenTaskId))) {
 
                 // Update  states
-                spoolManager.assignSpoolsToTask(chosenTask);
-                printerManager.assignTaskToPrinter(printer);
-                printTaskManager.assignTaskToPrinter(printer, chosenTask);
-                printTaskManager.removePendingTask(chosenTask);
+                spoolManager.assignSpoolsToTask(taskColors, printTaskManager.getTaskFilamentType(chosenTaskId), chosenTaskId);
+                printerManager.assignTaskToPrinter(printerId);
+                printTaskManager.assignTaskToPrinter(printerId, chosenTaskId);
+                printTaskManager.removePendingTask(chosenTaskId);
 
-                System.out.println("- Started task: " + chosenTask + " on printer " + printer.getName());
+                System.out.println("Task " + chosenTaskId + " assigned to printer " + printerId);
             } else {
-                System.out.println("No suitable spools available for task on printer " + printer.getName());
+                System.out.println("No suitable spools found for task " + chosenTaskId);
             }
         } else {
-            System.out.println("No suitable task found for printer " + printer.getName());
+            System.out.println("No suitable task found for printer " + printerId);
         }
     }
 
     public void startInitialQueue() {
-        for (Printer printer : printerManager.getPrinters()) {
-            selectPrintTask(printer);
-        }
+        // TODO: Implement
     }
 
     public void addPrint(String name, int height, int width, int length,
@@ -64,171 +60,73 @@ public class PrinterFacade {
         printManager.addPrint(name, height, width, length, filamentLength, printTime);
     }
 
-    public List<Print> getPrints() {
-        return printManager.getPrints();
+    public void addPrintTask(String printId, List<String> colors, String filamentType) {
+        printTaskManager.addPrintTask(printId, colors, filamentType);
     }
 
-    public List<Printer> getPrinters() {
-        return printerManager.getPrinters();
-    }
+    public void registerPrinterFailure(String printerId) {
+        String taskId = printerManager.getPrinterCurrentTaskId(printerId);
 
-    public PrintTask getPrinterCurrentTask(Printer printer) {
-        return printTaskManager.getPrinterCurrentTask(printer);
-    }
-
-    public void addPrintTask(String printName, List<String> colors, String filamentTypeAsString) {
-        FilamentType type = FilamentType.valueOf(filamentTypeAsString);
-        Print print = printManager.findPrint(printName);
-        printTaskManager.addPrintTask(print, colors, type);
-    }
-
-    public void registerPrinterFailure(int printerId) {
-        Printer printer = printerManager.getPrinterById(printerId);
-
-        PrintTask task = printTaskManager.getPrinterCurrentTask(printer);
-
-        if (task != null) {
+        if (taskId != null) {
             // Update states
-            printTaskManager.removeRunningTask(printer);
-            printTaskManager.addPendingTask(task);
-            spoolManager.reduceResourcesForPrinter(printer, task);
+            printTaskManager.removeRunningTask(taskId);
+            printTaskManager.addPendingTask(taskId);
+            printerManager.reduceResourcesForPrinter(printerId, printManager.getReductionMap(taskId));
         } else {
-            System.out.println("No task running on printer " + printer.getName());
+            System.out.println("No task running on printer " + printerId);
         }
-        selectPrintTask(printer);
+        selectPrintTask(printerId);
     }
 
-    public void registerCompletion(int printerId) {
-        Printer printer = printerManager.getPrinterById(printerId);
+    public void registerCompletion(String printerId) {
+        String taskId = printerManager.getPrinterCurrentTaskId(printerId);
 
-        PrintTask task = printTaskManager.getPrinterCurrentTask(printer);
-
-        if (task != null) {
+        if (taskId != null) {
             // Update states
-            printTaskManager.removeRunningTask(printer);
-            spoolManager.reduceResourcesForPrinter(printer, task);
+            printTaskManager.removeRunningTask(taskId);
+            printerManager.reduceResourcesForPrinter(printerId, printManager.getReductionMap(taskId));
         } else {
-            System.out.println("No task running on printer " + printer.getName());
+            System.out.println("No task running on printer " + printerId);
         }
-        selectPrintTask(printer);
+        selectPrintTask(printerId);
     }
 
-    public Print findPrint(int i) {
-        return printManager.findPrint(i);
-    }
-
-    public List<Spool> getSpools() {
-        return spoolManager.getSpools();
-    }
-
-    public List<PrintTask> getPendingPrintTasks() {
-        return printTaskManager.getPendingPrintTasks();
-    }
-
-    public void addSpool(int id, String color, String fillamentTypeAsString, double length) {
-        FilamentType type = FilamentType.valueOf(fillamentTypeAsString);
-        Spool spool = new Spool(id, color, type, length);
-        spoolManager.addSpool(spool);
+    public void addSpool(int id, String color, String filamentType, double length) {
+        // TODO: Check if fillament type exists
+        spoolManager.addSpool(id, color, filamentType, length);
     }
 
     public List<String> getAvailablePrints() {
-        List<Print> prints = printManager.getPrints();
-        List<String> printNames = new ArrayList<>();
-        for (Print print : prints) {
-            printNames.add(print.getName());
-        }
-        return printNames;
+        return printManager.getPrints();
     }
 
     public List<String> getAvailableFilamentTypes() {
-        return Arrays.stream(FilamentType.values())
-                .map(Enum::name)
-                .collect(Collectors.toList());
+        return spoolManager.getFilamentTypes();
     }
 
     public List<String> getAvailableColorsForFilamentType(String fillamentTypeAsString) {
-        FilamentType type = FilamentType.valueOf(fillamentTypeAsString);
-        List<Spool> spools = spoolManager.getSpools();
-        return spools.stream()
-                .filter(spool -> spool.getFilamentType() == type)
-                .map(Spool::getColor)
-                .distinct()
-                .collect(Collectors.toList());
+        return spoolManager.getAvailableColorsForFilamentType(fillamentTypeAsString);
     }
 
 
     public List<String> getRunningPrintersWithTasks() {
-        List<String> runningPrinters = new ArrayList<>();
-        for (Printer printer : printerManager.getPrinters()) {
-            PrintTask currentTask = printTaskManager.getPrinterCurrentTask(printer);
-            if (currentTask != null) {
-                runningPrinters.add(printer.getId() + ": " + printer.getName() + " - " + currentTask);
-            }
-        }
-        return runningPrinters;
+        return printerManager.getPrintersWithTasks();
     }
 
     public List<String> getFormattedSpools() {
-        List<String> formattedSpools = new ArrayList<>();
-        for (Spool spool : spoolManager.getSpools()) {
-            formattedSpools.add(formatSpool(spool));
-        }
-        return formattedSpools;
+        return spoolManager.getSpools();
     }
 
-    private String formatSpool(Spool spool) {
-        return "Color: " + spool.getColor() + ", Type: " + spool.getFilamentType() + ", Remaining: " + spool.getRemainingLength();
-        // Add more spool details as needed
-    }
 
     public List<String> getFormattedPrints() {
-        List<String> formattedPrints = new ArrayList<>();
-        for (Print print : printManager.getPrints()) {
-            formattedPrints.add(formatPrint(print));
-        }
-        return formattedPrints;
-    }
-
-    private String formatPrint(Print print) {
-        return "Print Name: " + print.getName() + ", Dimensions: " + print.getWidth() + "x" + print.getHeight() + "x" + print.getLength();
-        // Add more print details as needed
+        return printManager.getPrints();
     }
 
     public List<String> getFormattedPrinterInfo() {
-        List<String> formattedPrinterInfo = new ArrayList<>();
-        for (Printer printer : printerManager.getPrinters()) {
-            String printerInfo = formatPrinterInfo(printer);
-            formattedPrinterInfo.add(printerInfo);
-        }
-        return formattedPrinterInfo;
+        return printerManager.getPrinterInfo();
     }
-
-    private String formatPrinterInfo(Printer printer) {
-        StringBuilder info = new StringBuilder(printer.toString());
-        PrintTask currentTask = printTaskManager.getPrinterCurrentTask(printer);
-        if (currentTask != null) {
-            info.append(System.lineSeparator())
-                    .append("Current Print Task: ")
-                    .append(currentTask)
-                    .append(System.lineSeparator())
-                    .append("--------");
-        }
-        return info.toString();
-    }
-
 
     public List<String> getFormattedPendingPrintTasks() {
-        List<String> formattedTasks = new ArrayList<>();
-        for (PrintTask task : printTaskManager.getPendingPrintTasks()) {
-            formattedTasks.add(formatPrintTask(task));
-        }
-        return formattedTasks;
-    }
-
-    private String formatPrintTask(PrintTask task) {
-        // Format the task information as a string
-        // Example: "Task ID: [ID], Print Name: [PrintName], Status: [Status]"
-        return "Task ID: " + task.getId() + ", Print Name: " + task.getPrint().getName();
-        // Add more details as necessary
+        return printTaskManager.getPendingPrintTasks();
     }
 }

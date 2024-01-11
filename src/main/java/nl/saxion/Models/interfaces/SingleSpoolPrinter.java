@@ -6,7 +6,7 @@ import nl.saxion.Models.Spool;
 public abstract class SingleSpoolPrinter extends Printer {
      Spool spool;
 
-     public SingleSpoolPrinter(int id, String printerName, String manufacturer, int maxX, int maxY, int maxZ, Spool spool) {
+     public SingleSpoolPrinter(String id, String printerName, String manufacturer, int maxX, int maxY, int maxZ, Spool spool) {
           super(id, printerName, manufacturer, maxX, maxY, maxZ);
             this.spool = spool;
      }

@@ -39,7 +39,7 @@ public class JSONFileDataReader implements FileDataReader {
         JSONArray jsonPrinters = readJSONArrayFromFile(filename);
         for (Object obj : jsonPrinters) {
             JSONObject printerJSON = (JSONObject) obj;
-            int id = ((Long) printerJSON.get("id")).intValue();
+            String id = ((String) printerJSON.get("id"));
             int type = ((Long) printerJSON.get("type")).intValue();
             String name = (String) printerJSON.get("name");
             String manufacturer = (String) printerJSON.get("manufacturer");

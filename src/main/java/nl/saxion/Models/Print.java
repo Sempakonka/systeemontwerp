@@ -1,6 +1,7 @@
 package nl.saxion.Models;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Print {
     private String name;
@@ -49,5 +50,17 @@ public class Print {
 
     public ArrayList<Double> getFilamentLength() {
         return filamentLength;
+    }
+
+    public Map<Integer, Double> getReductionMap() {
+        Map<Integer, Double> reductionMap = new java.util.HashMap<>();
+        for (int i = 0; i < filamentLength.size(); i++) {
+            reductionMap.put(i, filamentLength.get(i));
+        }
+        return reductionMap;
+    }
+
+    public String getId() {
+        return name;
     }
 }
