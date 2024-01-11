@@ -24,7 +24,7 @@ public class MultiColorPrinter extends MultiSpoolPrinter  {
 
     @Override
     public boolean canAcceptTask(PrintTask task) {
-        return task.getFilamentType() != FilamentType.ABS && task.getColors().size() <= getMaxColors();
+        return task.getFilamentType() != FilamentType.ABS.ordinal() && task.getColors().size() <= getMaxColors();
     }
 
     public int getMaxColors() {

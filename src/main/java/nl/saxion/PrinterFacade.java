@@ -1,5 +1,6 @@
 package nl.saxion;
 
+import nl.saxion.factory.PrinterFactory;
 import nl.saxion.managers.PrintManager;
 import nl.saxion.managers.PrintTaskManager;
 import nl.saxion.managers.PrinterManager;
@@ -24,6 +25,10 @@ public class PrinterFacade {
     public void addPrinter(String id, int printerType, String printerName,
                            String manufacturer, int maxX, int maxY, int maxZ, int maxColors) {
         printerManager.addPrinter(id, printerType, printerName, manufacturer, maxX, maxY, maxZ, maxColors);
+    }
+
+    public void registerFactory(int printerType, PrinterFactory factory) {
+        printerManager.registerFactory(printerType, factory);
     }
 
     public void selectPrintTask(String printerId) {
@@ -60,7 +65,7 @@ public class PrinterFacade {
         printManager.addPrint(name, height, width, length, filamentLength, printTime);
     }
 
-    public void addPrintTask(String printId, List<String> colors, String filamentType) {
+    public void addPrintTask(String printId, List<String> colors, int filamentType) {
         printTaskManager.addPrintTask(printId, colors, filamentType);
     }
 

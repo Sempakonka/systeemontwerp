@@ -22,11 +22,6 @@ public class StandardFDMPrinter extends SingleSpoolPrinter   {
 
     @Override
     public boolean canAcceptTask(PrintTask task) {
-        return task.getFilamentType() != FilamentType.ABS && task.getColors().size() == 1;
-    }
-
-    @Override
-    public String toString() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        return task.getFilamentType() != FilamentType.ABS.ordinal() && task.getColors().size() == 1;
     }
 }

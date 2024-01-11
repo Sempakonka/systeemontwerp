@@ -6,7 +6,7 @@ import java.util.UUID;
 public class PrintTask {
     private String printId;
     private List<String> colors;
-    private String filamentType;
+    private int filamentType;
     /**
      * The ID of the printer currently printing this task.
      */
@@ -15,7 +15,7 @@ public class PrintTask {
     private String id;
 
 
-    public PrintTask(String printId, List<String> colors, String filamentType){
+    public PrintTask(String printId, List<String> colors, int filamentType){
         this.printerId = printId;
         this.colors = colors;
         this.filamentType = filamentType;
@@ -46,7 +46,7 @@ public class PrintTask {
         return colors;
     }
 
-    public String getFilamentType() {
+    public int getFilamentType() {
         return filamentType;
     }
 

@@ -22,6 +22,6 @@ public class HousedPrinter extends SingleSpoolPrinter   {
 
     @Override
     public boolean canAcceptTask(PrintTask task) {
-        return task.getPrint().getFilamentLength().size() == 1;
+        return task.getColors().size() == 1;
     }
 }

@@ -1,10 +1,7 @@
 package nl.saxion.managers;
 
 import nl.saxion.Models.Printer;
-import nl.saxion.factory.PrinterFactory;
-import nl.saxion.factory.HousedPrinterFactory;
-import nl.saxion.factory.MultiColorPrinterFactory;
-import nl.saxion.factory.StandardFDMPrinterFactory;
+import nl.saxion.factory.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +11,10 @@ import java.util.Objects;
 public class PrinterManager {
 
     private static PrinterManager instance;
+    private PrinterFactoryRegistry factoryRegistry;
 
     private PrinterManager() {
-
+        factoryRegistry = new PrinterFactoryRegistry();
     }
 
     public static synchronized PrinterManager getInstance() {
@@ -28,38 +26,21 @@ public class PrinterManager {
     private List<Printer> printers = new ArrayList<>();
 
     public void addPrinter(String id, int printerType, String printerName, String manufacturer, int maxX, int maxY, int maxZ, int maxColors) {
-        PrinterFactory factory = getPrinterFactory(printerType);
+        PrinterFactory factory = factoryRegistry.getFactory(printerType);
         if (factory != null) {
             Printer printer = factory.createPrinter(id, printerName, manufacturer, maxX, maxY, maxZ, maxColors);
             printers.add(printer);
         } else {
-            // Handle invalid printer type
-            System.out.println("Invalid printer type specified.");
+            System.out.println("Invalid printer type specified. Printer type " + printerType + " not found.");
         }
     }
 
-    private PrinterFactory getPrinterFactory(int printerType) {
-        return switch (printerType) {
-            case 1 -> new StandardFDMPrinterFactory();
-            case 2 -> new HousedPrinterFactory();
-            case 3 -> new MultiColorPrinterFactory();
-            default -> null;
-        };
-    }
-
-
-    public List<Printer> getPrinters() {
-        return printers;
-    }
-
-    public List<Printer> getFreePrinters() {
-        List<Printer> freePrinters = new ArrayList<>();
-        for (Printer printer : printers) {
-            if (printer.getCurrentTaskId() == null) {
-                freePrinters.add(printer);
-            }
+    public void registerFactory(int printerType, PrinterFactory factory) {
+        if (factory != null) {
+           factoryRegistry.registerFactory(printerType, factory);
+        } else {
+            System.out.println("Invalid factory specified. Must implement PrinterFactory interface.");
         }
-        return freePrinters;
     }
 
     public Printer getPrinterById(String id) {

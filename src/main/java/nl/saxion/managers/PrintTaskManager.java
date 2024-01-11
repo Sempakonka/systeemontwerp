@@ -28,13 +28,13 @@ public class PrintTaskManager {
     private List<PrintTask> printTasks = new ArrayList<>();
 
 
-    public void addPrintTask(String printId, List<String> colors, String type) {
+    public void addPrintTask(String printId, List<String> colors, int filamentType) {
         if (colors.size() == 0) {
             printError("Need at least one color, but none given");
             return;
         }
 
-        PrintTask task = new PrintTask(printId, colors, type);
+        PrintTask task = new PrintTask(printId, colors, filamentType);
         printTasks.add(task);
         System.out.println("Added task to queue");
     }
@@ -132,7 +132,7 @@ public class PrintTaskManager {
     public String getTaskFilamentType(String chosenTaskId) {
         for (PrintTask task : printTasks) {
             if (task.getId().equals(chosenTaskId)) {
-                return task.getFilamentType().toString();
+                return FilamentType.values()[task.getFilamentType()].toString();
             }
         }
         return null;

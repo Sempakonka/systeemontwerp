@@ -5,7 +5,6 @@ import nl.saxion.adaptor.FileDataReader;
 import nl.saxion.adaptor.JSONFileDataReader;
 import nl.saxion.factory.HousedPrinterFactory;
 import nl.saxion.factory.MultiColorPrinterFactory;
-import nl.saxion.factory.PrinterFactory;
 import nl.saxion.factory.StandardFDMPrinterFactory;
 
 import java.util.*;
@@ -19,17 +18,25 @@ public class Main {
         new Main().run(args);
     }
 
+    public void registerFactories() {
+        manager.registerFactory(1, new HousedPrinterFactory());
+        manager.registerFactory(2, new StandardFDMPrinterFactory());
+        manager.registerFactory(3, new MultiColorPrinterFactory());
+    }
+
     public void run(String[] args) {
+        registerFactories();
+        FileDataReader dataReader = new JSONFileDataReader();
         if (args.length > 0) {
-            FileDataReader dataReader = new JSONFileDataReader();
             dataReader.readPrints(args[0]);
             dataReader.readPrinters(args[1]);
             dataReader.readSpools(args[2]);
-
         } else {
-            System.out.println("No arguments given, system application will now exit.");
-            System.exit(0);
+            dataReader.readPrints("/Users/sempakonka/Desktop/school/JAAR 3/kwartiel2/3dPrintScheduler/src/main/resources/prints.json");
+            dataReader.readPrinters("/Users/sempakonka/Desktop/school/JAAR 3/kwartiel2/3dPrintScheduler/src/main/resources/printers.json");
+            dataReader.readSpools("/Users/sempakonka/Desktop/school/JAAR 3/kwartiel2/3dPrintScheduler/src/main/resources/spools.json");
         }
+
         int choice = 1;
         while (choice > 0 && choice < 10) {
             menu();
@@ -174,7 +181,7 @@ public class Main {
         }
 
         // Call Facade to add the print task
-        manager.addPrintTask(printName, colors, filamentType);
+        manager.addPrintTask(printName, colors, filamentTypeIndex);
         System.out.println("Print task added successfully.");
     }
 

@@ -1,4 +1,5 @@
 package nl.saxion.adaptor;
+
 import nl.saxion.PrinterFacade;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -13,7 +14,8 @@ import java.util.ArrayList;
 public class JSONFileDataReader implements FileDataReader {
     PrinterFacade printerFacade = new PrinterFacade();
 
-    public JSONFileDataReader() {}
+    public JSONFileDataReader() {
+    }
 
     @Override
     public void readPrints(String filename) {
@@ -39,7 +41,7 @@ public class JSONFileDataReader implements FileDataReader {
         JSONArray jsonPrinters = readJSONArrayFromFile(filename);
         for (Object obj : jsonPrinters) {
             JSONObject printerJSON = (JSONObject) obj;
-            String id = ((String) printerJSON.get("id"));
+            String id = String.valueOf(printerJSON.get("id"));
             int type = ((Long) printerJSON.get("type")).intValue();
             String name = (String) printerJSON.get("name");
             String manufacturer = (String) printerJSON.get("manufacturer");

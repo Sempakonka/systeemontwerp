@@ -57,5 +57,6 @@ public class PrintManager {
                 return p.getReductionMap();
             }
         }
+        return null;
     }
 }
