@@ -5,6 +5,9 @@ import nl.saxion.managers.PrintManager;
 import nl.saxion.managers.PrintTaskManager;
 import nl.saxion.managers.PrinterManager;
 import nl.saxion.managers.SpoolManager;
+import nl.saxion.strategy.EfficientSpoolUsageStrategy;
+import nl.saxion.strategy.LessSpoolChangesStrategy;
+import nl.saxion.strategy.PrintStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +18,27 @@ public class PrinterFacade {
     private SpoolManager spoolManager;
     private PrintTaskManager printTaskManager;
 
+    private PrintStrategy printStrategy;
+
+
     public PrinterFacade() {
         printerManager = PrinterManager.getInstance();
         printManager = PrintManager.getInstance();
         spoolManager = SpoolManager.getInstance();
         printTaskManager = PrintTaskManager.getInstance();
+    }
+
+    public void changePrintStrategy(int strategyChoice) {
+        switch (strategyChoice) {
+            case 1:
+                printStrategy = new EfficientSpoolUsageStrategy();
+                break;
+            case 2:
+                printStrategy = new LessSpoolChangesStrategy();
+                break;
+            default:
+                System.out.println("Invalid strategy choice");
+        }
     }
 
     public void addPrinter(String id, int printerType, String printerName,

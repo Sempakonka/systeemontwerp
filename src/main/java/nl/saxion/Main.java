@@ -100,11 +100,7 @@ public class Main {
         System.out.println("- 2: Efficient Spool Usage");
         System.out.println("- Choose strategy: ");
         int strategyChoice = numberInput(1, 2);
-        if (strategyChoice == 1) {
-            printStrategy = "- Less Spool Changes";
-        } else if (strategyChoice == 2) {
-            printStrategy = "- Efficient Spool Usage";
-        }
+        manager.changePrintStrategy(strategyChoice);
         System.out.println("-----------------------------------");
     }
 
