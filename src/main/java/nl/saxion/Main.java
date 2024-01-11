@@ -3,13 +3,15 @@ package nl.saxion;
 
 import nl.saxion.adaptor.FileDataReader;
 import nl.saxion.adaptor.JSONFileDataReader;
-import nl.saxion.factory.HousedPrinterFactory;
-import nl.saxion.factory.MultiColorPrinterFactory;
-import nl.saxion.factory.StandardFDMPrinterFactory;
+import nl.saxion.factory.FactoryTypes.HousedMultiColorPrinterFactory;
+import nl.saxion.factory.FactoryTypes.HousedPrinterFactory;
+import nl.saxion.factory.FactoryTypes.MultiColorPrinterFactory;
+import nl.saxion.factory.FactoryTypes.StandardFDMPrinterFactory;
 
 import java.util.*;
 
 public class Main implements nl.saxion.observer.Observer {
+
     private final PrinterFacade manager = new PrinterFacade();
     Scanner scanner = new Scanner(System.in);
     private String printStrategy = "Less Spool Changes";
@@ -19,9 +21,10 @@ public class Main implements nl.saxion.observer.Observer {
     }
 
     public void registerFactories() {
-        manager.registerFactory(1, new HousedPrinterFactory());
-        manager.registerFactory(2, new StandardFDMPrinterFactory());
-        manager.registerFactory(3, new MultiColorPrinterFactory());
+        manager.registerFactory(PrinterType.HousedPrinter.ordinal(), new HousedPrinterFactory());
+        manager.registerFactory(PrinterType.StandardFDMPrinter.ordinal(), new StandardFDMPrinterFactory());
+        manager.registerFactory(PrinterType.MultiColorPrinter.ordinal(), new MultiColorPrinterFactory());
+        manager.registerFactory(PrinterType.HousedMultiColorPrinter.ordinal(), new HousedMultiColorPrinterFactory());
     }
 
     public void run(String[] args) {
@@ -124,7 +127,6 @@ public class Main implements nl.saxion.observer.Observer {
         manager.registerCompletion(printerId);
     }
 
-
     private void registerPrinterFailure() {
         List<String> printersWithTasks = manager.getRunningPrintersWithTasks();
         System.out.println("---------- Currently Running Printers ----------");
@@ -144,7 +146,6 @@ public class Main implements nl.saxion.observer.Observer {
 
         manager.registerPrinterFailure(printerId);
     }
-
 
     private void addNewPrintTask() {
         // Display available prints
@@ -187,7 +188,6 @@ public class Main implements nl.saxion.observer.Observer {
         }
     }
 
-
     private void showPrints() {
         List<String> prints = manager.getFormattedPrints();
         System.out.println("---------- Available Prints ----------");
@@ -196,7 +196,6 @@ public class Main implements nl.saxion.observer.Observer {
         }
         System.out.println("--------------------------------------");
     }
-
 
     private void showSpools() {
         List<String> spools = manager.getFormattedSpools();
@@ -215,7 +214,6 @@ public class Main implements nl.saxion.observer.Observer {
         }
         System.out.println("--------------------------------------");
     }
-
 
     private void showPendingPrintTasks() {
         List<String> pendingTasksInfo = manager.getFormattedPendingPrintTasks();
@@ -262,9 +260,16 @@ public class Main implements nl.saxion.observer.Observer {
         return input;
     }
 
-
     @Override
     public void update(String message) {
         System.out.println(message);
+    }
+
+
+    enum PrinterType {
+        HousedPrinter,
+        StandardFDMPrinter,
+        MultiColorPrinter,
+        HousedMultiColorPrinter
     }
 }

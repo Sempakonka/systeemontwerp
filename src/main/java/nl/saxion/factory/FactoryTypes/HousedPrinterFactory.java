@@ -1,7 +1,8 @@
-package nl.saxion.factory;
+package nl.saxion.factory.FactoryTypes;
 
 import nl.saxion.Models.Printers.HousedPrinter;
 import nl.saxion.Models.Printer;
+import nl.saxion.factory.PrinterFactory;
 
 public class HousedPrinterFactory implements PrinterFactory {
     @Override

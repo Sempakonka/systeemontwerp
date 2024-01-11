@@ -1,7 +1,8 @@
-package nl.saxion.factory;
+package nl.saxion.factory.FactoryTypes;
 
 import nl.saxion.Models.Printer;
 import nl.saxion.Models.Printers.StandardFDMPrinter;
+import nl.saxion.factory.PrinterFactory;
 
 public class StandardFDMPrinterFactory implements PrinterFactory {
     @Override
