@@ -31,7 +31,6 @@ public class PrinterFacade {
     }
 
 
-
     public void addObserver(Observer observer) {
         observers.add(observer);
     }

@@ -29,15 +29,16 @@ public class Main implements nl.saxion.observer.Observer {
 
     public void run(String[] args) {
         registerFactories();
-        FileDataReader dataReader = new JSONFileDataReader();
+        FileDataReader JSONdataReader = new JSONFileDataReader();
+        FileDataReader XMLdataReader = new JSONFileDataReader();
         if (args.length > 0) {
-            dataReader.readPrints(args[0]);
-            dataReader.readPrinters(args[1]);
-            dataReader.readSpools(args[2]);
+            JSONdataReader.readPrints(args[0]);
+            JSONdataReader.readPrinters(args[1]);
+            XMLdataReader.readSpools(args[2]);
         } else {
-            dataReader.readPrints("/Users/sempakonka/Desktop/school/JAAR 3/kwartiel2/3dPrintScheduler/src/main/resources/prints.json");
-            dataReader.readPrinters("/Users/sempakonka/Desktop/school/JAAR 3/kwartiel2/3dPrintScheduler/src/main/resources/printers.json");
-            dataReader.readSpools("/Users/sempakonka/Desktop/school/JAAR 3/kwartiel2/3dPrintScheduler/src/main/resources/spools.json");
+            JSONdataReader.readPrints("/Users/sempakonka/Desktop/school/JAAR 3/kwartiel2/3dPrintScheduler/src/main/resources/prints.json");
+            JSONdataReader.readPrinters("/Users/sempakonka/Desktop/school/JAAR 3/kwartiel2/3dPrintScheduler/src/main/resources/printers.json");
+            JSONdataReader.readSpools("/Users/sempakonka/Desktop/school/JAAR 3/kwartiel2/3dPrintScheduler/src/main/resources/spools.json");
         }
 
         manager.addObserver(this);
@@ -267,6 +268,7 @@ public class Main implements nl.saxion.observer.Observer {
 
 
     enum PrinterType {
+        NONE,
         HousedPrinter,
         StandardFDMPrinter,
         MultiColorPrinter,
