@@ -1,6 +1,6 @@
 package nl.saxion.factory;
 
-import nl.saxion.Models.MultiColorPrinter;
+import nl.saxion.Models.Printers.MultiColorPrinter;
 import nl.saxion.Models.Printer;
 
 public class MultiColorPrinterFactory implements PrinterFactory {

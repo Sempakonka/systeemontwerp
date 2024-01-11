@@ -1,6 +1,6 @@
 package nl.saxion.factory;
 
-import nl.saxion.Models.HousedPrinter;
+import nl.saxion.Models.Printers.HousedPrinter;
 import nl.saxion.Models.Printer;
 
 public class HousedPrinterFactory implements PrinterFactory {

@@ -1,5 +1,7 @@
 package nl.saxion.Models;
 
+import nl.saxion.Models.PrintTask;
+
 import java.util.Map;
 
 public abstract class Printer {
