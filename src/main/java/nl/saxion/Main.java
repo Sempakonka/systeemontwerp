@@ -9,7 +9,7 @@ import nl.saxion.factory.StandardFDMPrinterFactory;
 
 import java.util.*;
 
-public class Main {
+public class Main implements nl.saxion.observer.Observer {
     private final PrinterFacade manager = new PrinterFacade();
     Scanner scanner = new Scanner(System.in);
     private String printStrategy = "Less Spool Changes";
@@ -36,6 +36,8 @@ public class Main {
             dataReader.readPrinters("/Users/sempakonka/Desktop/school/JAAR 3/kwartiel2/3dPrintScheduler/src/main/resources/printers.json");
             dataReader.readSpools("/Users/sempakonka/Desktop/school/JAAR 3/kwartiel2/3dPrintScheduler/src/main/resources/spools.json");
         }
+
+        manager.addObserver(this);
 
         int choice = 1;
         while (choice > 0 && choice < 10) {
@@ -90,9 +92,6 @@ public class Main {
 
     }
 
-    // This method only changes the name but does not actually work.
-    // It exists to demonstrate the output.
-    // in the future strategy might be added.
     private void changePrintStrategy() {
         System.out.println("---------- Change Strategy -------------");
         System.out.println("- Current strategy: " + printStrategy);
@@ -261,5 +260,11 @@ public class Main {
             input = numberInput();
         }
         return input;
+    }
+
+
+    @Override
+    public void update(String message) {
+        System.out.println(message);
     }
 }

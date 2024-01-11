@@ -5,6 +5,7 @@ import nl.saxion.managers.PrintManager;
 import nl.saxion.managers.PrintTaskManager;
 import nl.saxion.managers.PrinterManager;
 import nl.saxion.managers.SpoolManager;
+import nl.saxion.observer.Observer;
 import nl.saxion.strategy.EfficientSpoolUsageStrategy;
 import nl.saxion.strategy.LessSpoolChangesStrategy;
 import nl.saxion.strategy.PrintStrategy;
@@ -20,12 +21,29 @@ public class PrinterFacade {
 
     private PrintStrategy printStrategy;
 
+    private List<Observer> observers = new ArrayList<>();
 
     public PrinterFacade() {
         printerManager = PrinterManager.getInstance();
         printManager = PrintManager.getInstance();
         spoolManager = SpoolManager.getInstance();
         printTaskManager = PrintTaskManager.getInstance();
+    }
+
+
+
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    private void notifyObservers(String message) {
+        for (Observer observer : observers) {
+            observer.update(message);
+        }
     }
 
     public void changePrintStrategy(int strategyChoice) {
