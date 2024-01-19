@@ -45,7 +45,7 @@ public class PrinterManager {
 
     public Printer getPrinterById(String id) {
         for (Printer printer : printers) {
-            if (printer.getId() == id) {
+            if (Objects.equals(printer.getId(), id)) {
                 return printer;
             }
         }
@@ -99,5 +99,13 @@ public class PrinterManager {
             printerInfo.add(printer.toString());
         }
         return printerInfo;
+    }
+
+    public List<String> getAllPrinterIds() {
+        List<String> printerIds = new ArrayList<>();
+        for (Printer printer : printers) {
+            printerIds.add(printer.getId());
+        }
+        return printerIds;
     }
 }

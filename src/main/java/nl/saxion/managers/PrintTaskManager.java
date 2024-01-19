@@ -43,7 +43,7 @@ public class PrintTaskManager {
         List<String> pendingTasks = new ArrayList<>();
         for (PrintTask task : printTasks) {
             if (task.getPrinterId() == null) {
-                pendingTasks.add(task.getId());
+                pendingTasks.add(task.toString());
             }
         }
         return pendingTasks;
@@ -73,6 +73,12 @@ public class PrintTaskManager {
 
 
 
+    /**
+     * Finds a print task for a specific printer based on the provided task evaluator.
+     *
+     * @param taskEvaluator The predicate used to evaluate the print task.
+     * @return The ID of the print task that satisfies the task evaluator, or null if no task is found.
+     */
     public String findTaskForPrinter(Predicate<PrintTask> taskEvaluator) {
         for (PrintTask task : printTasks) {
             if (taskEvaluator.test(task)) {
@@ -125,16 +131,29 @@ public class PrintTaskManager {
     }
 
     public String getTaskColors(String chosenTaskId) {
-        // search
-        return "";
-    }
-
-    public String getTaskFilamentType(String chosenTaskId) {
         for (PrintTask task : printTasks) {
             if (task.getId().equals(chosenTaskId)) {
-                return FilamentType.values()[task.getFilamentType()].toString();
+                return task.getColors().get(0);
             }
         }
         return null;
+    }
+
+    public FilamentType getTaskFilamentType(String chosenTaskId) {
+        for (PrintTask task : printTasks) {
+            if (task.getId().equals(chosenTaskId)) {
+                return FilamentType.values()[task.getFilamentType()];
+            }
+        }
+        return null;
+    }
+
+    public int getColorAmount(String taskId) {
+        for (PrintTask task : printTasks) {
+            if (task.getId().equals(taskId)) {
+                return task.getColors().size();
+            }
+        }
+        return 0;
     }
 }

@@ -63,4 +63,8 @@ public class Print {
     public String getId() {
         return name;
     }
+
+    public int getAmountOfColors() {
+        return filamentLength.size();
+    }
 }

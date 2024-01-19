@@ -42,8 +42,8 @@ public class Spool {
         return length;
     }
 
-    public boolean spoolMatch(String color, String type) {
-        return color.equals(this.color) && String.valueOf(type).equals(String.valueOf(this.getFilamentType()));
+    public boolean spoolMatch(String color, FilamentType type) {
+        return color.equals(this.color) && type == this.getFilamentType();
     }
     /**
      * This method will try to reduce the length of the spool.

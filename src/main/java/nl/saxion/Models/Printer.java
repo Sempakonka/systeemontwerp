@@ -44,6 +44,7 @@ public abstract class Printer {
                 "- ID: " + id + System.lineSeparator() +
                 "- Name: " + name + System.lineSeparator() +
                 "- Manufacturer: " + manufacturer + System.lineSeparator() +
+                "- Current task ID: " + currentTaskId + System.lineSeparator() +
                 "--------";
     }
 

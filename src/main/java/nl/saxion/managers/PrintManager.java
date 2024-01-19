@@ -59,4 +59,14 @@ public class PrintManager {
         }
         return null;
     }
+
+
+    public int getAmountOfColors(String printName) {
+        for (Print p : prints) {
+            if (p.getName().equals(printName)) {
+                return p.getAmountOfColors();
+            }
+        }
+        return 0;
+    }
 }

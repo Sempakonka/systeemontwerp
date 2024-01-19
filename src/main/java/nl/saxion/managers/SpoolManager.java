@@ -38,16 +38,16 @@ public class SpoolManager {
         return spoolStrings;
     }
 
-    public boolean areSpoolsAvailableForTask(String colors, String filamentType) {
+    public boolean areSpoolsAvailableForTask(String colors, FilamentType filamentType) {
         for (Spool spool : spools) {
-            if (spool.spoolMatch(colors, filamentType) && spool.getTaskId() != null) {
+            if (spool.spoolMatch(colors, filamentType) && spool.getTaskId() == null) {
                 return true;
             }
         }
         return false;
     }
 
-    public void assignSpoolsToTask(String colors, String filamentType, String taskId) {
+    public void assignSpoolsToTask(String colors, FilamentType filamentType, String taskId) {
         boolean found = false;
         for (Spool spool : spools) {
             if (spool.spoolMatch(colors, filamentType) && spool.getTaskId() == null) {
@@ -65,17 +65,23 @@ public class SpoolManager {
     // get all filemtntypes return as list of string
     public List<String> getFilamentTypes() {
         List<String> filamentTypes = new ArrayList<>();
-        for (Spool spool : spools) {
-            filamentTypes.add(spool.getFilamentType().toString());
+        for (FilamentType filamentType : FilamentType.values()) {
+            filamentTypes.add(filamentType.toString());
         }
         return filamentTypes;
     }
 
-    // get available colors for filament type
+
+    /**
+     * Retrieves the available colors for a given filament type.
+     *
+     * @param filamentType the filament type to retrieve the available colors for
+     * @return a list of available colors for the given filament type
+     */
     public List<String> getAvailableColorsForFilamentType(String filamentType) {
         List<String> colors = new ArrayList<>();
         for (Spool spool : spools) {
-            if (spool.getFilamentType().toString().equals(filamentType)) {
+            if (spool.getFilamentType().toString().equals(filamentType) && !colors.contains(spool.getColor())) {
                 colors.add(spool.getColor());
             }
         }

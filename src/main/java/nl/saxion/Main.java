@@ -171,7 +171,7 @@ public class Main implements nl.saxion.observer.Observer {
 
         // Collect color choices from user
         List<String> colors = new ArrayList<>();
-        for (int i = 0; i < availableColors.size(); i++) {
+        for (int i = 0; i <  manager.getColorAmountfromPrint(printName); i++) {
             System.out.print("- Color number " + (i + 1) + ": ");
             int colorIndex = numberInput(1, availableColors.size()) - 1;
             colors.add(availableColors.get(colorIndex));
@@ -217,10 +217,11 @@ public class Main implements nl.saxion.observer.Observer {
     }
 
     private void showPendingPrintTasks() {
-        List<String> pendingTasksInfo = manager.getFormattedPendingPrintTasks();
+        List<String> pendingTasksInfo = manager.getPendingPrintTasks();
         System.out.println("--------- Pending Print Tasks ---------");
         for (String taskInfo : pendingTasksInfo) {
             System.out.println(taskInfo);
+            System.out.println("--------------------------------------");
         }
         System.out.println("--------------------------------------");
     }

@@ -15,8 +15,8 @@ public class PrintTask {
     private String id;
 
 
-    public PrintTask(String printId, List<String> colors, int filamentType){
-        this.printerId = printId;
+    public PrintTask(String printId, List<String> colors, int filamentType) {
+        this.printId = printId;
         this.colors = colors;
         this.filamentType = filamentType;
         this.id = UUID.randomUUID().toString();
@@ -50,10 +50,9 @@ public class PrintTask {
         return filamentType;
     }
 
-    public String getPrint(){
+    public String getPrint() {
         return printId;
     }
-
 
 
     public String getId() {
@@ -61,4 +60,14 @@ public class PrintTask {
     }
 
 
+    @Override
+    public String toString() {
+        return "PrintTask{" +
+                "printId='" + printId + "', " +
+                "colors=" + colors + ", " +
+                "filamentType=" + filamentType + ", " +
+                "printerId='" + printerId + "', " +
+                "id='" + id + "'" +
+                '}';
+    }
 }

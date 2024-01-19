@@ -93,7 +93,13 @@ public class PrinterFacade {
     }
 
     public void startInitialQueue() {
-        // TODO: Implement
+        // Get all printer IDs
+        List<String> printerIds = printerManager.getAllPrinterIds();
+
+        // For each printer, select a print task and start it
+        for (String printerId : printerIds) {
+            selectPrintTask(printerId);
+        }
     }
 
     public void addPrint(String name, int height, int width, int length,
@@ -167,7 +173,11 @@ public class PrinterFacade {
         return printerManager.getPrinterInfo();
     }
 
-    public List<String> getFormattedPendingPrintTasks() {
+    public List<String> getPendingPrintTasks() {
         return printTaskManager.getPendingPrintTasks();
+    }
+
+    public int getColorAmountfromPrint(String printId) {
+        return printManager.getAmountOfColors(printId);
     }
 }
