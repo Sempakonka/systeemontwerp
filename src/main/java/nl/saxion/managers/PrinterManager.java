@@ -57,6 +57,7 @@ public class PrinterManager {
         for (Printer printer : printers) {
             if (Objects.equals(printer.getId(), printerId)) {
                 printer.setCurrentTaskId(printerId);
+                suitablePrinterFound = true;
             }
         }
         if (!suitablePrinterFound) {
