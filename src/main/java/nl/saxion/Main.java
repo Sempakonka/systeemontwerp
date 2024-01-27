@@ -7,6 +7,7 @@ import nl.saxion.factory.FactoryTypes.HousedMultiColorPrinterFactory;
 import nl.saxion.factory.FactoryTypes.HousedPrinterFactory;
 import nl.saxion.factory.FactoryTypes.MultiColorPrinterFactory;
 import nl.saxion.factory.FactoryTypes.StandardFDMPrinterFactory;
+import nl.saxion.factory.PrinterType;
 
 import java.util.*;
 
@@ -178,7 +179,7 @@ public class Main implements nl.saxion.observer.Observer {
         }
 
         // Call Facade to add the print task
-        manager.addPrintTask(printName, colors, filamentTypeIndex);
+        manager.addPrintTask(printName, colors, filamentTypeIndex, UUID.randomUUID().toString());
         System.out.println("Print task added successfully.");
     }
 
@@ -265,14 +266,5 @@ public class Main implements nl.saxion.observer.Observer {
     @Override
     public void update(String message) {
         System.out.println(message);
-    }
-
-
-    enum PrinterType {
-        NONE,
-        HousedPrinter,
-        StandardFDMPrinter,
-        MultiColorPrinter,
-        HousedMultiColorPrinter
     }
 }

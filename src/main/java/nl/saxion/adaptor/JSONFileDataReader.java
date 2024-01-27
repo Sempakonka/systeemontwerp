@@ -1,5 +1,6 @@
 package nl.saxion.adaptor;
 
+import nl.saxion.Models.FilamentType;
 import nl.saxion.PrinterFacade;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -60,8 +61,10 @@ public class JSONFileDataReader implements FileDataReader {
             JSONObject spoolJSON = (JSONObject) obj;
             int id = ((Long) spoolJSON.get("id")).intValue();
             String color = (String) spoolJSON.get("color");
-            String filamentType = (String) spoolJSON.get("filamentType");
+            String filamentTypeAsString = (String) spoolJSON.get("filamentType");
             double length = (Double) spoolJSON.get("length");
+
+            FilamentType filamentType = FilamentType.valueOf(filamentTypeAsString.toUpperCase());
             printerFacade.addSpool(id, color, filamentType, length);
         }
     }

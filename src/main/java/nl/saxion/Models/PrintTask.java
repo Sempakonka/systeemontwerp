@@ -6,20 +6,29 @@ import java.util.UUID;
 public class PrintTask {
     private String printId;
     private List<String> colors;
-    private int filamentType;
+    private FilamentType filamentType;
     /**
      * The ID of the printer currently printing this task.
      */
     private String printerId;
 
     private String id;
+    boolean isDone = false;
 
 
-    public PrintTask(String printId, List<String> colors, int filamentType) {
+    public PrintTask(String printId, List<String> colors, FilamentType filamentType, String id) {
         this.printId = printId;
         this.colors = colors;
         this.filamentType = filamentType;
-        this.id = UUID.randomUUID().toString();
+        this.id = id;
+    }
+
+    public void setDone(boolean isDone) {
+        this.isDone = isDone;
+    }
+
+    public boolean getDone() {
+        return isDone;
     }
 
 
@@ -46,7 +55,7 @@ public class PrintTask {
         return colors;
     }
 
-    public int getFilamentType() {
+    public FilamentType getFilamentType() {
         return filamentType;
     }
 

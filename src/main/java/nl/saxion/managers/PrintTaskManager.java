@@ -28,15 +28,18 @@ public class PrintTaskManager {
     private List<PrintTask> printTasks = new ArrayList<>();
 
 
-    public void addPrintTask(String printId, List<String> colors, int filamentType) {
+    public String addPrintTask(String printId, List<String> colors, int filamentType, String taskId) {
         if (colors.size() == 0) {
             printError("Need at least one color, but none given");
-            return;
+            return null;
         }
 
-        PrintTask task = new PrintTask(printId, colors, filamentType);
+        FilamentType filamentTypeEnum = FilamentType.values()[filamentType];
+
+        PrintTask task = new PrintTask(printId, colors, filamentTypeEnum, taskId);
+        String id = task.getId();
         printTasks.add(task);
-        System.out.println("Added task to queue");
+        return id;
     }
 
     public List<String> getPendingPrintTasks() {
@@ -81,15 +84,15 @@ public class PrintTaskManager {
      */
     public String findTaskForPrinter(Predicate<PrintTask> taskEvaluator) {
         for (PrintTask task : printTasks) {
-            if (taskEvaluator.test(task)) {
+            if (task.getDone()){
+                continue;
+            }
+            // if task can be printed by spool and is not already assigned to a printer
+            if (taskEvaluator.test(task) && task.getPrinterId() == null) {
                 return task.getId();
             }
         }
         return null;
-    }
-
-    public void removePendingTask(String taskId) {
-        printTasks.removeIf(task -> task.getId().equals(taskId));
     }
 
     /**
@@ -130,10 +133,10 @@ public class PrintTaskManager {
         }
     }
 
-    public String getTaskColors(String chosenTaskId) {
+    public List<String> getTaskColors(String chosenTaskId) {
         for (PrintTask task : printTasks) {
             if (task.getId().equals(chosenTaskId)) {
-                return task.getColors().get(0);
+                return task.getColors();
             }
         }
         return null;
@@ -142,7 +145,7 @@ public class PrintTaskManager {
     public FilamentType getTaskFilamentType(String chosenTaskId) {
         for (PrintTask task : printTasks) {
             if (task.getId().equals(chosenTaskId)) {
-                return FilamentType.values()[task.getFilamentType()];
+                return  task.getFilamentType();
             }
         }
         return null;
@@ -155,5 +158,32 @@ public class PrintTaskManager {
             }
         }
         return 0;
+    }
+
+    public String getCurrentPrintTask(String printerId) {
+        for (PrintTask task : printTasks) {
+            if (task.getPrinterId() != null && task.getPrinterId().equals(printerId)) {
+                return task.getId();
+            }
+        }
+        return null;
+    }
+
+    public String getPrintIdFromPrintTask(String chosenTaskId) {
+        for (PrintTask task : printTasks) {
+            if (task.getId().equals(chosenTaskId)) {
+                return task.getPrint();
+            }
+        }
+        return null;
+    }
+
+    public void registerTaskDone(String taskId) {
+        for (PrintTask task : printTasks) {
+            if (task.getId().equals(taskId)) {
+                task.setDone(true);
+                break;
+            }
+        }
     }
 }

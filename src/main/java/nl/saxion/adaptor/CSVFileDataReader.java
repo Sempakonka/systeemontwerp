@@ -1,5 +1,6 @@
 package nl.saxion.adaptor;
 
+import nl.saxion.Models.FilamentType;
 import nl.saxion.PrinterFacade;
 
 import java.io.BufferedReader;
@@ -47,8 +48,10 @@ public class CSVFileDataReader implements FileDataReader {
                 try {
                     int id = Integer.parseInt(values[0].trim());
                     String color = values[1].trim();
-                    String filamentType = values[2].trim();
+                    String filamentTypeAsString = values[2].trim();
                     double length = Double.parseDouble(values[3].trim());
+
+                    FilamentType filamentType = FilamentType.valueOf(filamentTypeAsString.toUpperCase());
 
                     printerFacade.addSpool(id, color, filamentType, length);
                 } catch (NumberFormatException e) {

@@ -8,8 +8,10 @@ public class Print {
     private int height;
     private int width;
     private int length;
+
     private ArrayList<Double> filamentLength;
     private int printTime;
+
 
     public Print(String name, int height, int width, int length, ArrayList<Double> filamentLength, int printTime) {
         this.name = name;
@@ -48,16 +50,8 @@ public class Print {
         return width;
     }
 
-    public ArrayList<Double> getFilamentLength() {
+    public ArrayList<Double> getFilamentLengths() {
         return filamentLength;
-    }
-
-    public Map<Integer, Double> getReductionMap() {
-        Map<Integer, Double> reductionMap = new java.util.HashMap<>();
-        for (int i = 0; i < filamentLength.size(); i++) {
-            reductionMap.put(i, filamentLength.get(i));
-        }
-        return reductionMap;
     }
 
     public String getId() {
@@ -66,5 +60,9 @@ public class Print {
 
     public int getAmountOfColors() {
         return filamentLength.size();
+    }
+
+    public void setTaskId(String taskId) {
+
     }
 }

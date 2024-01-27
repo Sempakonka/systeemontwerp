@@ -3,18 +3,23 @@ package nl.saxion.Models.interfaces;
 import nl.saxion.Models.Printer;
 import nl.saxion.Models.Spool;
 
-public abstract class MultiSpoolPrinter extends Printer {
-    Spool[] spools;
+import java.util.List;
+import java.util.stream.Stream;
 
-    public MultiSpoolPrinter(String id, String printerName, String manufacturer, int maxX, int maxY, int maxZ, Spool[] spools) {
+public abstract class MultiSpoolPrinter extends Printer {
+    Integer[] spoolsIds;
+
+    public MultiSpoolPrinter(String id, String printerName, String manufacturer, int maxX, int maxY, int maxZ, Integer[] spools) {
         super(id, printerName, manufacturer, maxX, maxY, maxZ);
-        this.spools = spools;
+        this.spoolsIds = spools;
     }
 
-    void setCurrentSpools(Spool[] spools){
-        this.spools = spools;
-    };
-    public Spool[] getCurrentSpools(){
-        return spools;
-    };
+    @Override
+    public void setCurrentSpools(Integer[] spools){
+        this.spoolsIds = spools;
+    }
+    @Override
+    public Integer[] getCurrentSpools(){
+        return spoolsIds;
+    }
 }

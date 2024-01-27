@@ -51,10 +51,10 @@ public class PrintManager {
         return prints.get(index);
     }
 
-    public Map<Integer, Double> getReductionMap(String printName) {
+    public ArrayList<Double> getFilamentLengths(String printId) {
         for (Print p : prints) {
-            if (p.getName().equals(printName)) {
-                return p.getReductionMap();
+            if (p.getName().equals(printId)) {
+                return p.getFilamentLengths();
             }
         }
         return null;

@@ -1,7 +1,7 @@
 package nl.saxion.Models;
 
-import nl.saxion.Models.PrintTask;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public abstract class Printer {
@@ -32,8 +32,6 @@ public abstract class Printer {
         return currentTaskId;
     }
 
-    public abstract void reduceSpoolLength(Map<Integer, Double> reductionMap);
-
     public String getId() {
         return id;
     }
@@ -53,4 +51,7 @@ public abstract class Printer {
     }
 
     public abstract boolean canAcceptTask(PrintTask task);
+
+    public abstract void setCurrentSpools(Integer[] spools);
+    public abstract Integer[] getCurrentSpools();
 }

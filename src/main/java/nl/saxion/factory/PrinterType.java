@@ -1,8 +1,9 @@
 package nl.saxion.factory;
 
 public enum PrinterType {
-    STANDARD_FDM,
-    HOUSED,
-    MULTICOLOR
-    // Add more types as needed
+    NONE,
+    HousedPrinter,
+    StandardFDMPrinter,
+    MultiColorPrinter,
+    HousedMultiColorPrinter
 }

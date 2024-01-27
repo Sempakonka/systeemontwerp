@@ -1,6 +1,7 @@
 package nl.saxion.managers;
 
 import nl.saxion.Models.Printer;
+import nl.saxion.Models.Spool;
 import nl.saxion.factory.*;
 
 import java.util.ArrayList;
@@ -52,12 +53,16 @@ public class PrinterManager {
         return null;
     }
 
-    public void assignTaskToPrinter(String printerId) {
+    public void assignTaskToPrinter(String printerId, String taskId) {
         boolean suitablePrinterFound = false;
         for (Printer printer : printers) {
             if (Objects.equals(printer.getId(), printerId)) {
-                printer.setCurrentTaskId(printerId);
-                suitablePrinterFound = true;
+                if (printer.getCurrentTaskId() != null) {
+                    System.out.println("Printer " + printerId + " is already assigned to a task");
+                } else {
+                    printer.setCurrentTaskId(taskId);
+                    suitablePrinterFound = true;
+                }
             }
         }
         if (!suitablePrinterFound) {
@@ -68,20 +73,22 @@ public class PrinterManager {
     public String getPrinterCurrentTaskId(String printerId) {
         for (Printer printer : printers) {
             if (Objects.equals(printer.getId(), printerId)) {
+                System.out.println("THE CURRER PRINT TASK ID IS " + printer.getCurrentTaskId());
                 return printer.getCurrentTaskId();
             }
         }
         return null;
     }
 
-    public void reduceResourcesForPrinter(String printerId, Map<Integer, Double> reductionMap) {
-        Printer printer = getPrinterById(printerId);
-        if (printer != null) {
-           printer.reduceSpoolLength(reductionMap);
-        } else {
-            System.out.println("No printer found with ID " + printerId);
-        }
-    }
+//
+//    public void reduceResourcesForPrinter(String printerId, Map<Integer, Double> reductionMap) {
+//        Printer printer = getPrinterById(printerId);
+//        if (printer != null) {
+//           printer.reduceSpoolLength(reductionMap);
+//        } else {
+//            System.out.println("No printer found with ID " + printerId);
+//        }
+//    }
 
     // get printers with tasks
     public List<String> getPrintersWithTasks() {
@@ -108,5 +115,58 @@ public class PrinterManager {
             printerIds.add(printer.getId());
         }
         return printerIds;
+    }
+
+//    public List<Integer> getSpoolOfPrinter(String printerId) {
+//        for (Printer printer : printers) {
+//            if (Objects.equals(printer.getId(), printerId)) {
+//                return printer.getCurrentSpools();
+//            }
+//        }
+//        return null;
+//    }
+
+    public Integer[] getSpoolIdFromPrinter(String printerId) {
+        for (Printer printer : printers) {
+            if (Objects.equals(printer.getId(), printerId)) {
+                return printer.getCurrentSpools();
+            }
+        }
+        return null;
+    }
+
+    public void assignSpoolsToPrinter(String printerId, List<Integer> spoolIds) {
+        Printer printer = getPrinterById(printerId);
+        Integer[] spoolIdsArray = spoolIds.toArray(new Integer[0]);
+
+        if (printer != null) {
+            printer.setCurrentSpools(spoolIdsArray);
+        }
+    }
+
+    public Integer[] getSpoolsFromPrinter(String printerId) {
+        Printer printer = getPrinterById(printerId);
+        if (printer != null) {
+            return printer.getCurrentSpools();
+        } else {
+            System.out.println("No printer found with ID " + printerId);
+            return null;
+        }
+    }
+
+    /**
+     * Decouples the spools from the printer with the specified ID.
+     * Used when a printer fails or finished.
+     * Is needed because spools are now free to go to another task.
+     *
+     * @param printerId The unique identifier of the printer.
+     */
+    public void decoupleSpoolsFromPrinter(String printerId) {
+        Printer printer = getPrinterById(printerId);
+        if (printer != null) {
+            printer.setCurrentSpools(null);
+        } else {
+            System.out.println("No printer found with ID " + printerId);
+        }
     }
 }

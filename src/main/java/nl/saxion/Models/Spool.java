@@ -1,14 +1,19 @@
 package nl.saxion.Models;
 
 public class Spool {
-    private final int id;
+    private final Integer id;
     private final String color;
     private final FilamentType filamentType;
     private double length;
 
     private String taskId;
+    // this specifies what part of the print should be done by this spool
+    private Integer printFilamentIndex;
 
-    public Spool(int id, String color, FilamentType filamentType, double length) {
+    private String printId;
+
+
+    public Spool(Integer id, String color, FilamentType filamentType, double length) {
         this.id = id;
         this.color = color;
         this.filamentType = filamentType;
@@ -18,12 +23,27 @@ public class Spool {
     public void setTaskId(String taskId) {
         this.taskId = taskId;
     }
+    public void setPrintFilamentIndex(Integer printFilamentIndex) {
+        this.printFilamentIndex = printFilamentIndex;
+    }
+
+    public void setPrintId(String printId) {
+        this.printId = printId;
+    }
+
+    public String getPrintId() {
+        return printId;
+    }
+
+    public Integer getPrintFilamentIndex() {
+        return printFilamentIndex;
+    }
 
     public String getTaskId() {
         return taskId;
     }
 
-    public Spool(int id, String color, String filamentTypeAsString, double length) {
+    public Spool(Integer id, String color, String filamentTypeAsString, double length) {
         this.id = id;
         this.color = color;
         try {
@@ -34,7 +54,7 @@ public class Spool {
         this.length = length;
     }
 
-    public int getId() {
+    public Integer getId() {
         return this.id;
     }
 
