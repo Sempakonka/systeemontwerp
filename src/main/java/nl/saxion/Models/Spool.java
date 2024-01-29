@@ -43,17 +43,6 @@ public class Spool {
         return taskId;
     }
 
-    public Spool(Integer id, String color, String filamentTypeAsString, double length) {
-        this.id = id;
-        this.color = color;
-        try {
-            this.filamentType = FilamentType.valueOf(filamentTypeAsString.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid filament type: " + filamentTypeAsString);
-        }
-        this.length = length;
-    }
-
     public Integer getId() {
         return this.id;
     }
@@ -81,11 +70,6 @@ public class Spool {
         return success;
     }
 
-    // empty whole spool
-    public void emptySpool() {
-        this.length = 0;
-    }
-
     public String getColor() {
         return color;
     }
@@ -102,9 +86,5 @@ public class Spool {
                 "- filamentType: " + filamentType + System.lineSeparator() +
                 "- length: " + length + System.lineSeparator() +
                 "--------";
-    }
-
-    public String getRemainingLength() {
-        return String.format("%.2f", length);
     }
 }

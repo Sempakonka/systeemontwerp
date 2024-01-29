@@ -87,7 +87,6 @@ public class SpoolManager {
      */
     public void freeSpoolsFromTask(String taskId) {
         for (Spool spool : spools) {
-                System.out.println("Freeing spool " + spool.getTaskId() + " from task " + taskId);
             if (spool.getTaskId() != null && spool.getTaskId().equals(taskId)) {
                 spool.setTaskId(null);
                 spool.setPrintId(null);
@@ -96,7 +95,6 @@ public class SpoolManager {
         }
     }
 
-    // get all filemtntypes return as list of string
     public List<String> getFilamentTypes() {
         List<String> filamentTypes = new ArrayList<>();
         for (FilamentType filamentType : FilamentType.values()) {

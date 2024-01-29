@@ -1,10 +1,7 @@
 package nl.saxion.Models.Printers;
 
 import nl.saxion.Models.PrintTask;
-import nl.saxion.Models.Spool;
 import nl.saxion.Models.interfaces.SingleSpoolPrinter;
-
-import java.util.Map;
 
 /* Printer capable of printing ABS */
 public class HousedPrinter extends SingleSpoolPrinter   {

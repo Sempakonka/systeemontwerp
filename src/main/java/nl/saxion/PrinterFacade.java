@@ -86,8 +86,6 @@ public class PrinterFacade {
     }
 
     public boolean selectPrintTask(String printerId) {
-        System.out.println("Selecting print task for printer " + printerId);
-        // Delegate to PrintTaskManager to select an appropriate task for the printer
         String chosenTaskId = printTaskManager.findTaskForPrinter(printerManager.getPrinterById(printerId)::canAcceptTask);
 
         List<String> taskColors = printTaskManager.getTaskColors(chosenTaskId);

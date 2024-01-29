@@ -38,18 +38,6 @@ public class Print {
         return name;
     }
 
-    public double getLength() {
-        return length;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
     public ArrayList<Double> getFilamentLengths() {
         return filamentLength;
     }
@@ -60,9 +48,5 @@ public class Print {
 
     public int getAmountOfColors() {
         return filamentLength.size();
-    }
-
-    public void setTaskId(String taskId) {
-
     }
 }

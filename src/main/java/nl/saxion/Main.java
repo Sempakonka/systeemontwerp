@@ -178,7 +178,6 @@ public class Main implements nl.saxion.observer.Observer {
             colors.add(availableColors.get(colorIndex));
         }
 
-        // Call Facade to add the print task
         manager.addPrintTask(printName, colors, filamentTypeIndex, UUID.randomUUID().toString());
         System.out.println("Print task added successfully.");
     }

@@ -1,11 +1,7 @@
 package nl.saxion.Models.Printers;
 
-import nl.saxion.Models.FilamentType;
 import nl.saxion.Models.PrintTask;
-import nl.saxion.Models.Spool;
 import nl.saxion.Models.interfaces.MultiSpoolPrinter;
-
-import java.util.Map;
 
 public class HousedMultiColorPrinter extends MultiSpoolPrinter {
     private int maxColors;

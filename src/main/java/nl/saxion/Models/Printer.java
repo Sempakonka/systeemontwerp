@@ -1,9 +1,5 @@
 package nl.saxion.Models;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 public abstract class Printer {
     private String id;
     private String name;

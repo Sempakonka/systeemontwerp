@@ -44,13 +44,6 @@ public class PrintManager {
         return null;
     }
 
-    public Print findPrint(int index) {
-        if(index > prints.size() -1) {
-            return null;
-        }
-        return prints.get(index);
-    }
-
     public ArrayList<Double> getFilamentLengths(String printId) {
         for (Print p : prints) {
             if (p.getName().equals(printId)) {

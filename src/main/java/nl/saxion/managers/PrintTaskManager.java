@@ -124,15 +124,6 @@ public class PrintTaskManager {
         }
     }
 
-    public void addPendingTask(String taskId) {
-        for (PrintTask task : printTasks) {
-            if (task.getId().equals(taskId)) {
-                task.setPrinterId(null);
-                break;
-            }
-        }
-    }
-
     public List<String> getTaskColors(String chosenTaskId) {
         for (PrintTask task : printTasks) {
             if (task.getId().equals(chosenTaskId)) {
@@ -149,15 +140,6 @@ public class PrintTaskManager {
             }
         }
         return null;
-    }
-
-    public int getColorAmount(String taskId) {
-        for (PrintTask task : printTasks) {
-            if (task.getId().equals(taskId)) {
-                return task.getColors().size();
-            }
-        }
-        return 0;
     }
 
     public String getCurrentPrintTask(String printerId) {

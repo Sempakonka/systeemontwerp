@@ -73,22 +73,11 @@ public class PrinterManager {
     public String getPrinterCurrentTaskId(String printerId) {
         for (Printer printer : printers) {
             if (Objects.equals(printer.getId(), printerId)) {
-                System.out.println("THE CURRER PRINT TASK ID IS " + printer.getCurrentTaskId());
                 return printer.getCurrentTaskId();
             }
         }
         return null;
     }
-
-//
-//    public void reduceResourcesForPrinter(String printerId, Map<Integer, Double> reductionMap) {
-//        Printer printer = getPrinterById(printerId);
-//        if (printer != null) {
-//           printer.reduceSpoolLength(reductionMap);
-//        } else {
-//            System.out.println("No printer found with ID " + printerId);
-//        }
-//    }
 
     // get printers with tasks
     public List<String> getPrintersWithTasks() {
@@ -115,24 +104,6 @@ public class PrinterManager {
             printerIds.add(printer.getId());
         }
         return printerIds;
-    }
-
-//    public List<Integer> getSpoolOfPrinter(String printerId) {
-//        for (Printer printer : printers) {
-//            if (Objects.equals(printer.getId(), printerId)) {
-//                return printer.getCurrentSpools();
-//            }
-//        }
-//        return null;
-//    }
-
-    public Integer[] getSpoolIdFromPrinter(String printerId) {
-        for (Printer printer : printers) {
-            if (Objects.equals(printer.getId(), printerId)) {
-                return printer.getCurrentSpools();
-            }
-        }
-        return null;
     }
 
     public void assignSpoolsToPrinter(String printerId, List<Integer> spoolIds) {

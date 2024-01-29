@@ -4,7 +4,6 @@ import nl.saxion.Models.FilamentType;
 import nl.saxion.PrinterFacade;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -18,12 +17,12 @@ public class CSVFileDataReader implements FileDataReader {
 
     @Override
     public void readPrints(String filename) {
-        // Implementation for reading prints (to be done later)
+        // TODO: Implement this method
     }
 
     @Override
     public void readPrinters(String filename) {
-        // Implementation for reading printers (to be done later)
+        // TODO: Implement this method
     }
 
     @Override
