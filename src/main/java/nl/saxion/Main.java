@@ -37,9 +37,10 @@ public class Main implements nl.saxion.observer.Observer {
             JSONdataReader.readPrinters(args[1]);
             XMLdataReader.readSpools(args[2]);
         } else {
-            JSONdataReader.readPrints("/Users/sempakonka/Desktop/school/JAAR 3/kwartiel2/3dPrintScheduler/src/main/resources/prints.json");
-            JSONdataReader.readPrinters("/Users/sempakonka/Desktop/school/JAAR 3/kwartiel2/3dPrintScheduler/src/main/resources/printers.json");
-            JSONdataReader.readSpools("/Users/sempakonka/Desktop/school/JAAR 3/kwartiel2/3dPrintScheduler/src/main/resources/spools.json");
+            //TODO: Change this to the correct file path
+            JSONdataReader.readPrints("");
+            JSONdataReader.readPrinters("");
+            JSONdataReader.readSpools("");
         }
 
         manager.addObserver(this);
